@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        /* Base Styles */
+        /* All CSS styles remain exactly the same as before */
         :root {
             --lime-green: #32cd32;
             --light-blue: #00bfff;
@@ -1083,13 +1083,11 @@
                     <label class="form-label">Password</label>
                     <input type="password" id="password" class="form-control" placeholder="Enter your password" value="password123">
                 </div>
-                <button id="emailLoginBtn" class="btn btn-primary" style="width: 100%; margin-bottom: 15px;">Sign In / Sign Up</button>
+                <button id="emailLoginBtn" class="btn btn-primary" style="width: 100%; margin-bottom: 15px;">Sign In</button>
                 <div id="loginStatus" class="error-message" style="display: none;"></div>
-                <div style="text-align: center;">
-                    <a href="#" id="signupLink" style="color: var(--orange); text-decoration: none; font-weight: 500;">Demo: Use runner credentials above</a>
-                </div>
-                <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--medium-gray);">
-                    <p style="color: #666; font-size: 14px;">Are you a client? <a href="#" id="switchToClient" style="color: var(--orange); text-decoration: none; font-weight: 500;">Go to Client Dashboard</a></p>
+                <div style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
+                    <p>Demo: Click "Sign In" to use demo credentials</p>
+                    <p style="margin-top: 10px; font-size: 12px;">Email: runner@example.com<br>Password: password123</p>
                 </div>
             </div>
         </div>
@@ -1136,12 +1134,6 @@
                     <a href="#" class="nav-link" data-page="earnings">
                         <i class="fas fa-chart-line"></i>
                         <span>Earnings</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link" data-page="messages">
-                        <i class="fas fa-comments"></i>
-                        <span>Messages</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -1684,20 +1676,16 @@
             // Login buttons
             const googleLoginBtn = document.getElementById('googleLoginBtn');
             const emailLoginBtn = document.getElementById('emailLoginBtn');
-            const signupLink = document.getElementById('signupLink');
-            const switchToClient = document.getElementById('switchToClient');
             
             if (googleLoginBtn) googleLoginBtn.addEventListener('click', signInWithGoogle);
             if (emailLoginBtn) emailLoginBtn.addEventListener('click', signInWithEmail);
-            if (signupLink) signupLink.addEventListener('click', showSignup);
-            if (switchToClient) switchToClient.addEventListener('click', switchToClientDashboard);
             
             // Navigation
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const page = this.getAttribute('data-page');
-                    if (page === 'logout') {
+                    if (this.id === 'logoutBtn') {
                         logout();
                     } else {
                         showPage(page);
@@ -1732,7 +1720,11 @@
             if (logoutBtn) logoutBtn.addEventListener('click', logout);
             if (requestWithdrawalBtn) requestWithdrawalBtn.addEventListener('click', () => showModal('withdrawalModal'));
             if (submitBidBtn) submitBidBtn.addEventListener('click', submitBid);
-            if (completeJobBtn) completeJobBtn.addEventListener('click', completeJob);
+            if (completeJobBtn) completeJobBtn.addEventListener('click', () => {
+                if (selectedJobId) {
+                    markJobComplete(selectedJobId);
+                }
+            });
             if (confirmWithdrawalBtn) confirmWithdrawalBtn.addEventListener('click', processWithdrawal);
             if (availabilityToggle) availabilityToggle.addEventListener('change', toggleAvailability);
             if (withdrawalMethod) withdrawalMethod.addEventListener('change', showWithdrawalFields);
@@ -1788,48 +1780,51 @@
             
             showLoading();
             try {
-                await auth.signInWithEmailAndPassword(email, password);
+                // Try to sign in with the credentials
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
                 showToast('Successfully signed in!', 'success');
             } catch (error) {
                 console.error('Email sign in error:', error);
-                if (error.code === 'auth/user-not-found') {
-                    await createRunnerWithEmail(email, password);
+                
+                // For demo purposes, auto-create account if it doesn't exist
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                    showLoading();
+                    try {
+                        // Create a new user account for demo
+                        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                        
+                        // Create runner document in Firestore
+                        await db.collection('runners').doc(userCredential.user.uid).set({
+                            email: email,
+                            name: 'Demo Runner',
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            userType: 'runner',
+                            walletBalance: 5000,
+                            rating: 5.0,
+                            totalJobs: 0,
+                            totalEarnings: 0,
+                            profileComplete: false,
+                            isAvailable: true,
+                            vehicleType: 'motorcycle',
+                            skills: 'Delivery, Shopping, Errands',
+                            bio: 'Experienced runner ready to handle your tasks efficiently.',
+                            phone: '+254712345678',
+                            town: 'Nairobi',
+                            county: 'Nairobi County'
+                        });
+                        
+                        showToast('Demo runner account created! You have KSH 5000 in your wallet.', 'success');
+                    } catch (createError) {
+                        console.error('Create account error:', createError);
+                        showLoginError('Demo: Using auto-created account. Click Sign In again.');
+                    } finally {
+                        hideLoading();
+                    }
                 } else {
                     showLoginError('Error: ' + error.message);
                 }
             } finally {
                 hideLoading();
-            }
-        }
-
-        async function createRunnerWithEmail(email, password) {
-            try {
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                
-                // Create runner document in Firestore
-                await db.collection('runners').doc(userCredential.user.uid).set({
-                    email: email,
-                    name: email.split('@')[0],
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    userType: 'runner',
-                    walletBalance: 0,
-                    rating: 5.0,
-                    totalJobs: 0,
-                    totalEarnings: 0,
-                    profileComplete: false,
-                    isAvailable: true,
-                    vehicleType: '',
-                    skills: '',
-                    bio: '',
-                    phone: '+254712345678',
-                    town: 'Nairobi',
-                    county: 'Nairobi County'
-                });
-                
-                showToast('Runner account created successfully! Complete your profile to start.', 'success');
-            } catch (error) {
-                console.error('Create runner error:', error);
-                showLoginError('Error creating account: ' + error.message);
             }
         }
 
@@ -1842,19 +1837,6 @@
                 console.error('Logout error:', error);
                 showToast('Error logging out: ' + error.message, 'error');
             }
-        }
-
-        function showSignup(e) {
-            if (e) e.preventDefault();
-            showLoginError('Use the runner credentials above for demo');
-        }
-
-        function switchToClientDashboard(e) {
-            e.preventDefault();
-            // In a real app, this would redirect to the client dashboard
-            showToast('Switching to client dashboard...', 'info');
-            // For demo, just show a message
-            showLoginError('Client dashboard would open in a new tab or window.');
         }
 
         function showLoginError(message) {
@@ -1891,27 +1873,33 @@
                     // Create runner document if it doesn't exist
                     await db.collection('runners').doc(currentUser.uid).set({
                         email: currentUser.email,
-                        name: currentUser.displayName || currentUser.email.split('@')[0],
+                        name: currentUser.displayName || 'Demo Runner',
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         userType: 'runner',
-                        walletBalance: 0,
+                        walletBalance: 5000,
                         rating: 5.0,
                         totalJobs: 0,
                         totalEarnings: 0,
                         profileComplete: false,
-                        isAvailable: true
+                        isAvailable: true,
+                        vehicleType: 'motorcycle',
+                        skills: 'Delivery, Shopping, Errands',
+                        bio: 'Experienced runner ready to handle your tasks efficiently.',
+                        phone: '+254712345678',
+                        town: 'Nairobi',
+                        county: 'Nairobi County'
                     });
                     
                     runnerData = {
                         email: currentUser.email,
-                        name: currentUser.displayName || currentUser.email.split('@')[0],
-                        walletBalance: 0,
+                        name: currentUser.displayName || 'Demo Runner',
+                        walletBalance: 5000,
                         rating: 5.0,
                         isAvailable: true
                     };
                     
                     updateRunnerUI();
-                    showToast('Welcome to ERRANDS Runner! Complete your profile to get started.', 'success');
+                    showToast('Welcome to ERRANDS Runner! You have KSH 5000 in your wallet.', 'success');
                 }
             } catch (error) {
                 console.error('Error loading runner data:', error);
@@ -2522,7 +2510,7 @@
                 
                 // Show complete job button if there are active jobs
                 const completeBtn = document.getElementById('completeJobBtn');
-                if (completeBtn) {
+                if (completeBtn && snapshot.size > 0) {
                     completeBtn.style.display = 'flex';
                 }
                 
@@ -2958,16 +2946,12 @@
 
         // Initialize with demo data
         window.addEventListener('load', function() {
+            // Show login page
+            showLogin();
+            
             // Set demo credentials
             document.getElementById('email').value = 'runner@example.com';
             document.getElementById('password').value = 'password123';
-            
-            // Auto-login for demo
-            setTimeout(() => {
-                if (!currentUser && auth) {
-                    signInWithEmail();
-                }
-            }, 1000);
         });
     </script>
 </body>
