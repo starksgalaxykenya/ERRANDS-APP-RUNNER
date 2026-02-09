@@ -2296,7 +2296,7 @@
                     return;
                 }
                 
-                // Create bid object
+                // Create bid object WITHOUT FieldValue.serverTimestamp() in the object
                 const bid = {
                     runnerId: currentUser.uid,
                     runnerName: runnerData.name,
@@ -2304,10 +2304,10 @@
                     completionTime: parseInt(bidTime),
                     message: bidMessage,
                     status: 'pending',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    createdAt: new Date().toISOString() // Use regular date instead of FieldValue
                 };
                 
-                // Add bid to task
+                // Add bid to task using arrayUnion
                 await db.collection('errands').doc(selectedTaskId).update({
                     bids: firebase.firestore.FieldValue.arrayUnion(bid)
                 });
