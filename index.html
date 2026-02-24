@@ -1047,6 +1047,69 @@
             opacity: 0.9;
             font-size: 16px;
         }
+
+        /* Verification Section Styles */
+        .verification-section {
+            max-width: 800px;
+            margin: 30px auto 0;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            animation: slideUp 0.5s ease;
+        }
+        
+        .verification-section h2 {
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .verification-section h2 i {
+            color: var(--orange);
+        }
+        
+        .verification-status {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .verification-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .verification-feature {
+            background-color: var(--light-gray);
+            padding: 20px;
+            border-radius: var(--radius);
+            text-align: center;
+        }
+        
+        .verification-feature i {
+            font-size: 32px;
+            color: var(--orange);
+            margin-bottom: 15px;
+        }
+        
+        .verification-feature h3 {
+            margin-bottom: 10px;
+        }
+        
+        .verification-feature p {
+            color: #666;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -1268,6 +1331,46 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Account Verification Section (Only shown after login for unverified users) -->
+                <div id="verificationSection" class="verification-section" style="display: none;">
+                    <h2>
+                        <i class="fas fa-shield-alt"></i>
+                        Account Verification
+                    </h2>
+                    
+                    <div id="verificationStatus" class="verification-status">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 24px; color: #856404;"></i>
+                        <div>
+                            <h3 style="margin-bottom: 5px; color: #856404;">Verification Pending</h3>
+                            <p style="color: #856404; margin: 0;">Verify your account to unlock higher earnings and more tasks</p>
+                        </div>
+                    </div>
+                    
+                    <div class="verification-features">
+                        <div class="verification-feature">
+                            <i class="fas fa-id-card"></i>
+                            <h3>ID Verification</h3>
+                            <p>Upload front and back of your National ID</p>
+                        </div>
+                        <div class="verification-feature">
+                            <i class="fas fa-camera"></i>
+                            <h3>Selfie Verification</h3>
+                            <p>Take a clear selfie holding your ID</p>
+                        </div>
+                        <div class="verification-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <h3>Benefits</h3>
+                            <p>Higher earnings, more tasks, priority support</p>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <button id="verifyAccountBtn" class="btn btn-primary" style="padding: 15px 40px;">
+                            <i class="fas fa-shield-alt"></i> Start Verification Process
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!-- Available Tasks Page -->
@@ -1476,46 +1579,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    
-    <!-- Account Verification Section -->
-    <div class="form-container" style="margin-top: 30px;">
-        <h2 style="margin-bottom: 20px; font-family: 'Poppins', sans-serif; display: flex; align-items: center; gap: 10px;">
-            <i class="fas fa-shield-alt" style="color: var(--orange);"></i>
-            Account Verification
-        </h2>
-        
-        <div id="verificationStatus" class="verification-status" style="background-color: #fff3cd; border-left: 5px solid #ffc107; padding: 20px; border-radius: var(--radius); margin-bottom: 20px; display: flex; align-items: center; gap: 15px;">
-            <i class="fas fa-exclamation-triangle" style="font-size: 24px; color: #856404;"></i>
-            <div>
-                <h3 style="margin-bottom: 5px; color: #856404;">Verification Pending</h3>
-                <p style="color: #856404; margin: 0;">Verify your account to unlock higher earnings and more tasks</p>
-            </div>
-        </div>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
-            <div style="background-color: var(--light-gray); padding: 20px; border-radius: var(--radius); text-align: center;">
-                <i class="fas fa-id-card" style="font-size: 32px; color: var(--orange); margin-bottom: 15px;"></i>
-                <h3 style="margin-bottom: 10px;">ID Verification</h3>
-                <p style="color: #666; font-size: 14px;">Upload front and back of your National ID</p>
-            </div>
-            <div style="background-color: var(--light-gray); padding: 20px; border-radius: var(--radius); text-align: center;">
-                <i class="fas fa-camera" style="font-size: 32px; color: var(--orange); margin-bottom: 15px;"></i>
-                <h3 style="margin-bottom: 10px;">Selfie Verification</h3>
-                <p style="color: #666; font-size: 14px;">Take a clear selfie holding your ID</p>
-            </div>
-            <div style="background-color: var(--light-gray); padding: 20px; border-radius: var(--radius); text-align: center;">
-                <i class="fas fa-check-circle" style="font-size: 32px; color: var(--orange); margin-bottom: 15px;"></i>
-                <h3 style="margin-bottom: 10px;">Benefits</h3>
-                <p style="color: #666; font-size: 14px;">Higher earnings, more tasks, priority support</p>
-            </div>
-        </div>
-        
-        <div style="text-align: center;">
-            <button id="verifyAccountBtn" class="btn btn-primary" style="padding: 15px 40px;">
-                <i class="fas fa-shield-alt"></i> Start Verification Process
-            </button>
         </div>
     </div>
     
@@ -1766,6 +1829,7 @@
         const navLinks = document.querySelectorAll('.nav-link');
         const toast = document.getElementById('toast');
         const loadingSpinner = document.getElementById('loadingSpinner');
+        const verificationSection = document.getElementById('verificationSection');
 
         // Initialize the App
         document.addEventListener('DOMContentLoaded', function() {
@@ -1929,6 +1993,7 @@
                             totalEarnings: 0,
                             profileComplete: false,
                             isAvailable: true,
+                            verificationStatus: 'not_submitted',
                             vehicleType: 'motorcycle',
                             skills: 'Delivery, Shopping, Errands',
                             bio: 'Experienced runner ready to handle your tasks efficiently.',
@@ -1985,6 +2050,9 @@
                     // Update UI with runner data
                     updateRunnerUI();
                     
+                    // Load verification status and show/hide verification section
+                    updateVerificationStatus();
+                    
                     // Load dashboard data
                     loadDashboardData();
                     loadAvailableTasks();
@@ -2006,6 +2074,7 @@
                         totalEarnings: 0,
                         profileComplete: false,
                         isAvailable: true,
+                        verificationStatus: 'not_submitted',
                         vehicleType: 'motorcycle',
                         skills: 'Delivery, Shopping, Errands',
                         bio: 'Experienced runner ready to handle your tasks efficiently.',
@@ -2019,13 +2088,14 @@
                         name: currentUser.displayName || 'Demo Runner',
                         walletBalance: 5000,
                         rating: 5.0,
-                        isAvailable: true
+                        isAvailable: true,
+                        verificationStatus: 'not_submitted'
                     };
                     
                     updateRunnerUI();
                     
                     // Load verification status
-                    loadVerificationStatus();
+                    updateVerificationStatus();
 
                     // Load dashboard data
                     loadDashboardData();
@@ -3339,18 +3409,28 @@
         }
 
         function updateVerificationStatus() {
-            const verificationStatus = document.getElementById('verificationStatus');
-            if (!verificationStatus) return;
+            if (!verificationSection) return;
             
             const status = runnerData.verificationStatus || 'not_submitted';
-            const icon = verificationStatus.querySelector('i');
-            const title = verificationStatus.querySelector('h3');
-            const description = verificationStatus.querySelector('p');
+            
+            // Show verification section only for unverified users
+            if (status === 'verified') {
+                verificationSection.style.display = 'none';
+            } else {
+                verificationSection.style.display = 'block';
+            }
+            
+            const statusDiv = document.getElementById('verificationStatus');
+            if (!statusDiv) return;
+            
+            const icon = statusDiv.querySelector('i');
+            const title = statusDiv.querySelector('h3');
+            const description = statusDiv.querySelector('p');
             
             switch(status) {
                 case 'pending':
-                    verificationStatus.style.backgroundColor = '#fff3cd';
-                    verificationStatus.style.borderLeftColor = '#ffc107';
+                    statusDiv.style.backgroundColor = '#fff3cd';
+                    statusDiv.style.borderLeftColor = '#ffc107';
                     icon.className = 'fas fa-clock';
                     icon.style.color = '#856404';
                     title.textContent = 'Verification Pending';
@@ -3360,8 +3440,8 @@
                     break;
                     
                 case 'verified':
-                    verificationStatus.style.backgroundColor = '#d4edda';
-                    verificationStatus.style.borderLeftColor = '#28a745';
+                    statusDiv.style.backgroundColor = '#d4edda';
+                    statusDiv.style.borderLeftColor = '#28a745';
                     icon.className = 'fas fa-check-circle';
                     icon.style.color = '#155724';
                     title.textContent = 'Account Verified';
@@ -3371,8 +3451,8 @@
                     break;
                     
                 case 'rejected':
-                    verificationStatus.style.backgroundColor = '#f8d7da';
-                    verificationStatus.style.borderLeftColor = '#dc3545';
+                    statusDiv.style.backgroundColor = '#f8d7da';
+                    statusDiv.style.borderLeftColor = '#dc3545';
                     icon.className = 'fas fa-times-circle';
                     icon.style.color = '#721c24';
                     title.textContent = 'Verification Rejected';
@@ -3382,8 +3462,8 @@
                     break;
                     
                 default:
-                    verificationStatus.style.backgroundColor = '#fff3cd';
-                    verificationStatus.style.borderLeftColor = '#ffc107';
+                    statusDiv.style.backgroundColor = '#fff3cd';
+                    statusDiv.style.borderLeftColor = '#ffc107';
                     icon.className = 'fas fa-exclamation-triangle';
                     icon.style.color = '#856404';
                     title.textContent = 'Verification Required';
