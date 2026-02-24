@@ -823,7 +823,6 @@
             height: 100%;
             background-color: rgba(255, 255, 255, 0.9);
             z-index: 9999;
-            display: flex;
             align-items: center;
             justify-content: center;
         }
@@ -1110,12 +1109,68 @@
             color: #666;
             font-size: 14px;
         }
+
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .login-left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            background: linear-gradient(135deg, var(--orange) 0%, var(--light-blue) 100%);
+            color: white;
+        }
+
+        .login-right {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+        }
+
+        .google-btn {
+            width: 100%;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            padding: 14px;
+            font-weight: 500;
+            color: #444;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .google-btn:hover {
+            background-color: #f5f5f5;
+        }
     </style>
 </head>
 <body>
     <!-- Login Page -->
-    <div id="loginPage" class="login-container" style="display: none;">
-        <div class="login-left" style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; background: linear-gradient(135deg, var(--orange) 0%, var(--light-blue) 100%); color: white;">
+    <div id="loginPage" class="login-container">
+        <div class="login-left">
             <div style="text-align: center; max-width: 500px;">
                 <h1 style="font-size: 48px; margin-bottom: 20px; font-family: 'Poppins', sans-serif;">ERRANDS RUNNER</h1>
                 <p style="font-size: 20px; line-height: 1.6; opacity: 0.9;">Earn money by completing tasks and deliveries. Be your own boss, work on your schedule.</p>
@@ -1133,13 +1188,13 @@
                 </div>
             </div>
         </div>
-        <div class="login-right" style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px; background-color: rgba(255, 255, 255, 0.95);">
-            <div class="login-card" style="width: 100%; max-width: 420px; background-color: var(--white); border-radius: var(--radius); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); padding: 40px;">
+        <div class="login-right">
+            <div class="login-card">
                 <div class="login-header">
                     <h1>Runner Login</h1>
                     <p>Sign in to your ERRANDS Runner account</p>
                 </div>
-                <button id="googleLoginBtn" class="google-btn" style="width: 100%; background-color: white; border: 1px solid #ddd; border-radius: var(--radius); padding: 14px; font-weight: 500; color: #444; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px;">
+                <button id="googleLoginBtn" class="google-btn">
                     <i class="fab fa-google"></i> Sign in with Google
                 </button>
                 <div style="text-align: center; margin: 20px 0; color: #666;">or</div>
@@ -3470,21 +3525,6 @@
                     title.style.color = '#856404';
                     description.textContent = 'Verify your account to unlock higher earnings and more tasks';
                     description.style.color = '#856404';
-            }
-        }
-
-        // Load verification status when loading runner data
-        async function loadVerificationStatus() {
-            if (!currentUser) return;
-            
-            try {
-                const runnerDoc = await db.collection('runners').doc(currentUser.uid).get();
-                if (runnerDoc.exists) {
-                    runnerData.verificationStatus = runnerDoc.data().verificationStatus || 'not_submitted';
-                    updateVerificationStatus();
-                }
-            } catch (error) {
-                console.error('Error loading verification status:', error);
             }
         }
         
