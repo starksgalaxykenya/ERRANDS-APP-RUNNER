@@ -76,6 +76,7 @@
         .sidebar-header {
             text-align: center;
             margin-bottom: 30px;
+            position: relative;
         }
 
         .logo {
@@ -103,6 +104,37 @@
             font-weight: 600;
             margin-top: 5px;
             display: inline-block;
+        }
+        
+        .verification-badge {
+            position: absolute;
+            top: -5px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: var(--shadow);
+        }
+        
+        .verification-badge.verified {
+            color: var(--dark-green);
+        }
+        
+        .verification-badge.pending {
+            color: #ffc107;
+        }
+        
+        .verification-badge.rejected {
+            color: #dc3545;
+        }
+        
+        .verification-badge.not-submitted {
+            color: #6c757d;
         }
 
         .nav-links {
@@ -145,6 +177,7 @@
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: var(--radius);
             margin-top: auto;
+            position: relative;
         }
 
         .runner-avatar {
@@ -158,6 +191,25 @@
         .runner-info h4 {
             font-size: 16px;
             margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .runner-info h4 i {
+            font-size: 14px;
+        }
+        
+        .runner-info h4 i.verified {
+            color: var(--lime-green);
+        }
+        
+        .runner-info h4 i.pending {
+            color: #ffc107;
+        }
+        
+        .runner-info h4 i.rejected {
+            color: #dc3545;
         }
 
         .runner-info p {
@@ -449,6 +501,11 @@
         .status-cancelled {
             background-color: #f8d7da;
             color: #721c24;
+        }
+        
+        .status-pending_client_approval {
+            background-color: #fff3cd;
+            color: #856404;
         }
 
         /* Bid Modal */
@@ -853,6 +910,41 @@
             margin-top: 20px;
         }
 
+        /* Profile Prompt */
+        .profile-prompt {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .profile-prompt-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .profile-prompt i {
+            font-size: 28px;
+            color: #856404;
+        }
+        
+        .profile-prompt-text h3 {
+            color: #856404;
+            margin-bottom: 5px;
+        }
+        
+        .profile-prompt-text p {
+            color: #856404;
+            font-size: 14px;
+        }
+
         /* Responsive Styles */
         @media (max-width: 1200px) {
             .sidebar {
@@ -1225,6 +1317,9 @@
                     ERRANDS RUNNER
                 </a>
                 <div class="runner-badge">RUNNER MODE</div>
+                <div id="verificationBadge" class="verification-badge not-submitted" style="display: none;">
+                    <i class="fas fa-clock"></i>
+                </div>
             </div>
             <ul class="nav-links">
                 <li class="nav-item">
@@ -1274,7 +1369,7 @@
             <div class="runner-profile">
                 <img id="runnerAvatar" src="https://ui-avatars.com/api/?name=Runner&background=ff7f00&color=fff" alt="Runner" class="runner-avatar">
                 <div class="runner-info">
-                    <h4 id="runnerName">Loading...</h4>
+                    <h4 id="runnerName">Loading... <span id="verificationIcon"></span></h4>
                     <p id="runnerEmail">...</p>
                 </div>
             </div>
@@ -1297,6 +1392,20 @@
                 <div id="dashboardWelcome" class="dashboard-welcome">
                     <h2 id="welcomeMessage">HELLO Runner</h2>
                     <p>Track your earnings, find new tasks, and manage your jobs all in one place.</p>
+                </div>
+                
+                <!-- Profile Completion Prompt -->
+                <div id="profilePrompt" class="profile-prompt" style="display: none;">
+                    <div class="profile-prompt-content">
+                        <i class="fas fa-user-edit"></i>
+                        <div class="profile-prompt-text">
+                            <h3>Complete Your Profile</h3>
+                            <p>Add your details to start receiving tasks and payments</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="showPage('profile')">
+                        <i class="fas fa-arrow-right"></i> Complete Now
+                    </button>
                 </div>
                 
                 <!-- Availability Toggle -->
@@ -1706,12 +1815,36 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline" onclick="closeModal('jobDetailsModal')">Close</button>
-                <button id="startJobBtn" class="btn btn-primary" style="display: none;">Start Job</button>
-                <button id="completeJobModalBtn" class="btn btn-success" style="display: none;">Mark as Complete</button>
+                <button id="startJobBtn" class="btn btn-primary" style="display: none;">Start Run</button>
+                <button id="finishJobModalBtn" class="btn btn-success" style="display: none;">Finish Errand</button>
             </div>
         </div>
     </div>
 
+    <!-- Complete Job Confirmation Modal -->
+    <div id="completeJobModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Complete Errand</h2>
+                <button class="close-modal" onclick="closeModal('completeJobModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Additional Notes (Optional)</label>
+                    <textarea id="completionNotes" class="form-control" rows="3" placeholder="Add any notes about the completed errand..."></textarea>
+                </div>
+                <div style="background-color: #e7f3ff; padding: 15px; border-radius: var(--radius); margin-top: 20px;">
+                    <i class="fas fa-info-circle" style="color: var(--light-blue); margin-right: 10px;"></i>
+                    <span style="font-size: 14px;">The client will be notified and will need to approve the completion before payment is released.</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('completeJobModal')">Cancel</button>
+                <button id="confirmCompleteBtn" class="btn btn-success">Request Completion</button>
+            </div>
+        </div>
+    </div>
+    
     <!-- Withdrawal Modal -->
     <div id="withdrawalModal" class="modal">
         <div class="modal-content">
@@ -1852,6 +1985,7 @@
 
         // Initialize Firebase
         let auth, db, storage;
+        let unsubscribers = []; // Store real-time listeners
         
         try {
             if (typeof firebase === 'undefined') {
@@ -1898,6 +2032,13 @@
             // Check authentication state
             auth.onAuthStateChanged(user => {
                 console.log('Auth state changed:', user ? 'User logged in' : 'No user');
+                
+                // Clean up previous listeners
+                unsubscribers.forEach(unsub => {
+                    if (typeof unsub === 'function') unsub();
+                });
+                unsubscribers = [];
+                
                 if (user) {
                     currentUser = user;
                     loadRunnerData();
@@ -1946,10 +2087,10 @@
             const changePhotoBtn = document.getElementById('changePhotoBtn');
             const requestWithdrawalBtn = document.getElementById('requestWithdrawalBtn');
             const submitBidBtn = document.getElementById('submitBidBtn');
-            const completeJobBtn = document.getElementById('completeJobBtn');
             const confirmWithdrawalBtn = document.getElementById('confirmWithdrawalBtn');
             const availabilityToggle = document.getElementById('availabilityToggle');
             const withdrawalMethod = document.getElementById('withdrawalMethod');
+            const confirmCompleteBtn = document.getElementById('confirmCompleteBtn');
             
             if (refreshBtn) refreshBtn.addEventListener('click', refreshDashboard);
             if (viewTasksBtn) viewTasksBtn.addEventListener('click', () => showPage('availableTasks'));
@@ -1959,16 +2100,10 @@
             if (changePhotoBtn) changePhotoBtn.addEventListener('click', changeProfilePhoto);
             if (requestWithdrawalBtn) requestWithdrawalBtn.addEventListener('click', () => showModal('withdrawalModal'));
             if (submitBidBtn) submitBidBtn.addEventListener('click', submitBid);
-            if (completeJobBtn) completeJobBtn.addEventListener('click', () => {
-                if (selectedJobId) {
-                    markJobComplete(selectedJobId);
-                } else {
-                    showToast('Please select a job first', 'info');
-                }
-            });
             if (confirmWithdrawalBtn) confirmWithdrawalBtn.addEventListener('click', processWithdrawal);
             if (availabilityToggle) availabilityToggle.addEventListener('change', toggleAvailability);
             if (withdrawalMethod) withdrawalMethod.addEventListener('change', showWithdrawalFields);
+            if (confirmCompleteBtn) confirmCompleteBtn.addEventListener('click', requestCompletion);
             
             // Filter buttons
             document.querySelectorAll('.filter-buttons .filter-btn').forEach(btn => {
@@ -2112,12 +2247,11 @@
                     // Load verification status and show/hide verification section
                     updateVerificationStatus();
                     
-                    // Load dashboard data
-                    loadDashboardData();
-                    loadAvailableTasks();
-                    loadMyBids();
-                    loadActiveJobs();
-                    loadEarningsData();
+                    // Show profile prompt if profile is incomplete
+                    checkProfileCompletion();
+                    
+                    // Set up real-time listeners
+                    setupRealTimeListeners();
                     
                     showToast('Welcome back, ' + (runnerData.name || 'Runner') + '!', 'success');
                 } else {
@@ -2142,16 +2276,20 @@
                         walletBalance: 0,
                         rating: 0,
                         isAvailable: false,
-                        verificationStatus: 'not_submitted'
+                        verificationStatus: 'not_submitted',
+                        profileComplete: false
                     };
                     
                     updateRunnerUI();
                     
                     // Load verification status
                     updateVerificationStatus();
-
-                    // Load dashboard data
-                    loadDashboardData();
+                    
+                    // Show profile prompt
+                    checkProfileCompletion();
+                    
+                    // Set up real-time listeners
+                    setupRealTimeListeners();
                     
                     showToast('Welcome to ERRANDS Runner! Please complete your profile.', 'success');
                 }
@@ -2163,10 +2301,137 @@
             }
         }
 
+        function setupRealTimeListeners() {
+            if (!currentUser) return;
+            
+            // Listen for available tasks count
+            const availableTasksUnsub = db.collection('errands')
+                .where('status', '==', 'pending')
+                .onSnapshot(snapshot => {
+                    document.getElementById('availableTasksCount').textContent = snapshot.size;
+                    document.getElementById('taskCountBadge').textContent = snapshot.size;
+                    
+                    // Update recent tasks if on dashboard
+                    if (document.getElementById('dashboardPage').classList.contains('active')) {
+                        loadRecentTasks();
+                    }
+                }, error => {
+                    console.error('Available tasks listener error:', error);
+                });
+            unsubscribers.push(availableTasksUnsub);
+            
+            // Listen for active jobs
+            const activeJobsUnsub = db.collection('errands')
+                .where('status', 'in', ['assigned', 'in_progress', 'pending_client_approval'])
+                .where('runnerId', '==', currentUser.uid)
+                .onSnapshot(snapshot => {
+                    document.getElementById('activeJobsCount').textContent = snapshot.size;
+                    
+                    if (document.getElementById('activeJobsPage').classList.contains('active')) {
+                        loadActiveJobs();
+                    }
+                    
+                    // Update dashboard stats
+                    if (document.getElementById('dashboardPage').classList.contains('active')) {
+                        loadDashboardData();
+                    }
+                }, error => {
+                    console.error('Active jobs listener error:', error);
+                });
+            unsubscribers.push(activeJobsUnsub);
+            
+            // Listen for runner document changes (verification status, wallet, etc.)
+            const runnerUnsub = db.collection('runners').doc(currentUser.uid)
+                .onSnapshot(doc => {
+                    if (doc.exists) {
+                        runnerData = doc.data();
+                        updateRunnerUI();
+                        updateVerificationStatus();
+                        checkProfileCompletion();
+                        
+                        // Update earnings if on earnings page
+                        if (document.getElementById('earningsPage').classList.contains('active')) {
+                            loadEarningsData();
+                        }
+                    }
+                }, error => {
+                    console.error('Runner listener error:', error);
+                });
+            unsubscribers.push(runnerUnsub);
+            
+            // Listen for bids
+            const bidsUnsub = db.collection('bids')
+                .where('runnerId', '==', currentUser.uid)
+                .orderBy('createdAt', 'desc')
+                .onSnapshot(snapshot => {
+                    if (document.getElementById('myBidsPage').classList.contains('active')) {
+                        loadMyBids();
+                    }
+                }, error => {
+                    console.error('Bids listener error:', error);
+                });
+            unsubscribers.push(bidsUnsub);
+            
+            // Listen for transactions (earnings)
+            const transactionsUnsub = db.collection('transactions')
+                .where('runnerId', '==', currentUser.uid)
+                .where('type', '==', 'payment')
+                .orderBy('createdAt', 'desc')
+                .onSnapshot(snapshot => {
+                    if (document.getElementById('earningsPage').classList.contains('active')) {
+                        loadEarningsData();
+                    }
+                    
+                    // Update dashboard earnings
+                    if (document.getElementById('dashboardPage').classList.contains('active')) {
+                        loadDashboardData();
+                    }
+                }, error => {
+                    console.error('Transactions listener error:', error);
+                });
+            unsubscribers.push(transactionsUnsub);
+        }
+
         function updateRunnerUI() {
             document.getElementById('runnerName').textContent = runnerData.name || 'Runner';
             document.getElementById('runnerEmail').textContent = runnerData.email || currentUser.email;
             document.getElementById('welcomeMessage').textContent = `HELLO ${runnerData.name || 'Runner'}`;
+            
+            // Update verification icon
+            const verificationIcon = document.getElementById('verificationIcon');
+            const verificationBadge = document.getElementById('verificationBadge');
+            
+            if (verificationIcon) {
+                const status = runnerData.verificationStatus || 'not_submitted';
+                verificationIcon.innerHTML = '';
+                
+                if (status === 'verified') {
+                    verificationIcon.innerHTML = '<i class="fas fa-check-circle verified" title="Verified Account"></i>';
+                } else if (status === 'pending') {
+                    verificationIcon.innerHTML = '<i class="fas fa-clock pending" title="Verification Pending"></i>';
+                } else if (status === 'rejected') {
+                    verificationIcon.innerHTML = '<i class="fas fa-times-circle rejected" title="Verification Rejected"></i>';
+                }
+            }
+            
+            if (verificationBadge) {
+                const status = runnerData.verificationStatus || 'not_submitted';
+                verificationBadge.className = `verification-badge ${status}`;
+                
+                let icon = '';
+                if (status === 'verified') {
+                    icon = '<i class="fas fa-check-circle"></i>';
+                } else if (status === 'pending') {
+                    icon = '<i class="fas fa-clock"></i>';
+                } else if (status === 'rejected') {
+                    icon = '<i class="fas fa-times-circle"></i>';
+                } else {
+                    icon = '<i class="fas fa-exclamation-circle"></i>';
+                }
+                
+                verificationBadge.innerHTML = icon;
+                verificationBadge.style.display = 'flex';
+            }
             
             // Update profile form
             document.getElementById('profileName').value = runnerData.name || '';
@@ -2188,6 +2453,27 @@
             if (runnerData.photoURL) {
                 document.getElementById('runnerAvatar').src = runnerData.photoURL;
                 document.getElementById('profilePhoto').src = runnerData.photoURL;
+            }
+        }
+
+        function checkProfileCompletion() {
+            const profilePrompt = document.getElementById('profilePrompt');
+            if (!profilePrompt) return;
+            
+            const requiredFields = ['name', 'phone', 'town', 'county'];
+            const isComplete = requiredFields.every(field => runnerData[field]);
+            
+            if (!isComplete && runnerData.profileComplete !== true) {
+                profilePrompt.style.display = 'flex';
+            } else {
+                profilePrompt.style.display = 'none';
+                
+                // Update profileComplete flag if needed
+                if (!runnerData.profileComplete) {
+                    db.collection('runners').doc(currentUser.uid).update({
+                        profileComplete: true
+                    });
+                }
             }
         }
 
@@ -2214,6 +2500,7 @@
                 
                 // Update UI
                 updateRunnerUI();
+                checkProfileCompletion();
                 
                 showToast('Profile updated successfully!', 'success');
             } catch (error) {
@@ -2266,21 +2553,8 @@
         // Dashboard Functions
         async function loadDashboardData() {
             try {
-                // Load available tasks count
-                const tasksSnapshot = await db.collection('errands')
-                    .where('status', '==', 'pending')
-                    .get();
-                
-                document.getElementById('availableTasksCount').textContent = tasksSnapshot.size;
-                document.getElementById('taskCountBadge').textContent = tasksSnapshot.size;
-                
-                // Load active jobs count
-                const activeJobsSnapshot = await db.collection('errands')
-                    .where('status', '==', 'active')
-                    .where('runnerId', '==', currentUser.uid)
-                    .get();
-                
-                document.getElementById('activeJobsCount').textContent = activeJobsSnapshot.size;
+                // Load available tasks count (already handled by listener)
+                // Load active jobs count (already handled by listener)
                 
                 // Load today's earnings
                 const today = new Date();
@@ -2384,7 +2658,20 @@
             card.dataset.type = task.errandType?.toLowerCase();
             card.dataset.budget = task.budget;
             
-            const statusClass = `status-${task.status}`;
+            let statusClass = `status-${task.status}`;
+            let statusText = task.status.toUpperCase();
+            
+            if (task.status === 'pending') {
+                statusText = 'AVAILABLE';
+            } else if (task.status === 'assigned') {
+                statusText = 'ACCEPTED';
+            } else if (task.status === 'in_progress') {
+                statusText = 'IN PROGRESS';
+            } else if (task.status === 'pending_client_approval') {
+                statusText = 'AWAITING CLIENT APPROVAL';
+                statusClass = 'status-pending_client_approval';
+            }
+            
             const date = task.createdAt ? task.createdAt.toDate().toLocaleDateString() : 'Recent';
             const time = task.createdAt ? task.createdAt.toDate().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
             
@@ -2406,14 +2693,31 @@
                     </button>
                 `;
             } else if (context === 'active') {
-                actions = `
-                    <button class="btn btn-primary btn-sm" onclick="viewJobDetails('${id}')">
-                        <i class="fas fa-info-circle"></i> Details
-                    </button>
-                    <button class="btn btn-success btn-sm" onclick="markJobComplete('${id}')">
-                        <i class="fas fa-check"></i> Complete
-                    </button>
-                `;
+                if (task.status === 'assigned') {
+                    actions = `
+                        <button class="btn btn-primary btn-sm" onclick="startJob('${id}')">
+                            <i class="fas fa-play"></i> Start Run
+                        </button>
+                        <button class="btn btn-outline btn-sm" onclick="viewJobDetails('${id}')">
+                            <i class="fas fa-info-circle"></i> Details
+                        </button>
+                    `;
+                } else if (task.status === 'in_progress') {
+                    actions = `
+                        <button class="btn btn-success btn-sm" onclick="openCompleteModal('${id}')">
+                            <i class="fas fa-check"></i> Finish Errand
+                        </button>
+                        <button class="btn btn-outline btn-sm" onclick="viewJobDetails('${id}')">
+                            <i class="fas fa-info-circle"></i> Details
+                        </button>
+                    `;
+                } else if (task.status === 'pending_client_approval') {
+                    actions = `
+                        <button class="btn btn-outline btn-sm" onclick="viewJobDetails('${id}')">
+                            <i class="fas fa-info-circle"></i> Details
+                        </button>
+                    `;
+                }
             }
             
             card.innerHTML = `
@@ -2448,7 +2752,7 @@
                     </div>
                 </div>
                 <div class="task-footer">
-                    <span class="task-status ${statusClass}">${task.status.toUpperCase()}</span>
+                    <span class="task-status ${statusClass}">${statusText}</span>
                     <div class="task-actions">
                         ${actions}
                     </div>
@@ -2579,9 +2883,6 @@
                 showToast('Bid submitted successfully!', 'success');
                 closeModal('bidModal');
                 
-                // Refresh bids list
-                loadMyBids();
-                
             } catch (error) {
                 console.error('Submit bid error:', error);
                 showToast('Error submitting bid: ' + error.message, 'error');
@@ -2636,8 +2937,23 @@
             
             let statusText = bid.status.charAt(0).toUpperCase() + bid.status.slice(1);
             if (bid.status === 'pending') statusText = 'WAITING FOR CLIENT';
-            if (bid.status === 'accepted') statusText = 'BID ACCEPTED';
+            if (bid.status === 'accepted') statusText = 'BID ACCEPTED - READY TO START';
             if (bid.status === 'rejected') statusText = 'BID REJECTED';
+            
+            let actions = '';
+            if (bid.status === 'accepted') {
+                actions = `
+                    <button class="btn btn-success btn-sm" onclick="startJobFromBid('${bid.taskId}')">
+                        <i class="fas fa-play"></i> Start Run
+                    </button>
+                `;
+            } else if (bid.status === 'pending') {
+                actions = `
+                    <button class="btn btn-outline btn-sm" onclick="withdrawBid('${id}')">
+                        <i class="fas fa-times"></i> Withdraw
+                    </button>
+                `;
+            }
             
             card.innerHTML = `
                 <div class="task-header">
@@ -2671,16 +2987,7 @@
                 <div class="task-footer">
                     <span class="task-status ${statusClass}">${statusText}</span>
                     <div>
-                        ${bid.status === 'accepted' ? `
-                        <button class="btn btn-success btn-sm" onclick="viewJobFromBid('${bid.taskId}')">
-                            <i class="fas fa-briefcase"></i> Start Job
-                        </button>
-                        ` : ''}
-                        ${bid.status === 'pending' ? `
-                        <button class="btn btn-outline btn-sm" onclick="withdrawBid('${id}')">
-                            <i class="fas fa-times"></i> Withdraw
-                        </button>
-                        ` : ''}
+                        ${actions}
                     </div>
                 </div>
             `;
@@ -2724,7 +3031,6 @@
                 });
                 
                 showToast('Bid withdrawn successfully', 'success');
-                loadMyBids();
                 
             } catch (error) {
                 console.error('Withdraw bid error:', error);
@@ -2738,7 +3044,7 @@
         async function loadActiveJobs() {
             try {
                 const snapshot = await db.collection('errands')
-                    .where('status', 'in', ['active', 'in_progress'])
+                    .where('status', 'in', ['assigned', 'in_progress', 'pending_client_approval'])
                     .where('runnerId', '==', currentUser.uid)
                     .orderBy('createdAt', 'desc')
                     .get();
@@ -2765,12 +3071,6 @@
                     const jobCard = createTaskCard(job, doc.id, 'active');
                     jobsList.appendChild(jobCard);
                 });
-                
-                // Show complete job button if there are active jobs
-                const completeBtn = document.getElementById('completeJobBtn');
-                if (completeBtn && snapshot.size > 0) {
-                    completeBtn.style.display = 'flex';
-                }
                 
             } catch (error) {
                 console.error('Load active jobs error:', error);
@@ -2835,18 +3135,44 @@
                     `;
                 }
                 
+                // Add status and timestamps
+                const statusText = job.status === 'assigned' ? 'Accepted - Ready to Start' :
+                                  job.status === 'in_progress' ? 'In Progress' :
+                                  job.status === 'pending_client_approval' ? 'Awaiting Client Approval' :
+                                  job.status;
+                
+                details += `
+                    <div style="margin-bottom: 20px;">
+                        <strong>Status:</strong>
+                        <div>${statusText}</div>
+                    </div>
+                `;
+                
+                if (job.startedAt) {
+                    const startedDate = job.startedAt.toDate().toLocaleString();
+                    details += `
+                        <div style="margin-bottom: 20px;">
+                            <strong>Started:</strong>
+                            <div>${startedDate}</div>
+                        </div>
+                    `;
+                }
+                
                 document.getElementById('jobDetailsContent').innerHTML = details;
                 
                 // Show appropriate buttons
                 const startBtn = document.getElementById('startJobBtn');
-                const completeBtn = document.getElementById('completeJobModalBtn');
+                const finishBtn = document.getElementById('finishJobModalBtn');
                 
-                if (job.status === 'active') {
+                startBtn.style.display = 'none';
+                finishBtn.style.display = 'none';
+                
+                if (job.status === 'assigned') {
                     startBtn.style.display = 'inline-flex';
                     startBtn.onclick = () => startJob(jobId);
                 } else if (job.status === 'in_progress') {
-                    completeBtn.style.display = 'inline-flex';
-                    completeBtn.onclick = () => markJobComplete(jobId);
+                    finishBtn.style.display = 'inline-flex';
+                    finishBtn.onclick = () => openCompleteModal(jobId);
                 }
                 
             } catch (error) {
@@ -2855,7 +3181,16 @@
             }
         }
 
+        async function startJobFromBid(taskId) {
+            showPage('activeJobs');
+            setTimeout(() => {
+                startJob(taskId);
+            }, 500);
+        }
+
         async function startJob(jobId) {
+            if (!confirm('Start this run? The job status will be updated to "In Progress".')) return;
+            
             showLoading();
             try {
                 await db.collection('errands').doc(jobId).update({
@@ -2865,7 +3200,9 @@
                 
                 showToast('Job started successfully!', 'success');
                 closeModal('jobDetailsModal');
-                loadActiveJobs();
+                
+                // Navigate to active jobs page
+                showPage('activeJobs');
                 
             } catch (error) {
                 console.error('Start job error:', error);
@@ -2875,54 +3212,58 @@
             }
         }
 
-        async function markJobComplete(jobId) {
-            if (!confirm('Mark this job as complete? This will notify the client.')) return;
+        function openCompleteModal(jobId) {
+            selectedJobId = jobId;
+            showModal('completeJobModal');
+        }
+
+        async function requestCompletion() {
+            const notes = document.getElementById('completionNotes').value;
             
             showLoading();
             try {
-                const jobDoc = await db.collection('errands').doc(jobId).get();
-                const job = jobDoc.data();
-                
-                // Update job status
-                await db.collection('errands').doc(jobId).update({
-                    status: 'completed',
-                    completedAt: firebase.firestore.FieldValue.serverTimestamp()
+                await db.collection('errands').doc(selectedJobId).update({
+                    status: 'pending_client_approval',
+                    completionRequestedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    completionNotes: notes
                 });
                 
-                // Record payment transaction
-                await db.collection('transactions').add({
-                    taskId: jobId,
-                    runnerId: currentUser.uid,
-                    clientId: job.clientId,
-                    amount: job.runnerAmount,
-                    type: 'payment',
-                    status: 'completed',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                
-                // Update runner's earnings
-                await db.collection('runners').doc(currentUser.uid).update({
-                    totalJobs: firebase.firestore.FieldValue.increment(1),
-                    totalEarnings: firebase.firestore.FieldValue.increment(job.runnerAmount),
-                    walletBalance: firebase.firestore.FieldValue.increment(job.runnerAmount)
-                });
-                
-                // Update runner data
-                runnerData.totalJobs = (runnerData.totalJobs || 0) + 1;
-                runnerData.totalEarnings = (runnerData.totalEarnings || 0) + job.runnerAmount;
-                runnerData.walletBalance = (runnerData.walletBalance || 0) + job.runnerAmount;
-                
-                showToast('Job marked as complete! Payment of KSH ' + job.runnerAmount.toFixed(2) + ' added to your wallet.', 'success');
+                showToast('Completion request sent to client. Waiting for approval.', 'success');
+                closeModal('completeJobModal');
                 closeModal('jobDetailsModal');
-                loadActiveJobs();
-                loadEarningsData();
                 
             } catch (error) {
-                console.error('Complete job error:', error);
-                showToast('Error completing job: ' + error.message, 'error');
+                console.error('Request completion error:', error);
+                showToast('Error requesting completion: ' + error.message, 'error');
             } finally {
                 hideLoading();
             }
+        }
+
+        // Listen for client approval/rejection of completion
+        function listenForJobUpdates(jobId) {
+            const unsub = db.collection('errands').doc(jobId)
+                .onSnapshot(doc => {
+                    if (doc.exists) {
+                        const job = doc.data();
+                        
+                        if (job.status === 'completed' && job.completedAt) {
+                            showToast('Client approved completion! Payment has been released.', 'success');
+                            
+                            // Update earnings
+                            loadEarningsData();
+                            
+                            // Refresh active jobs
+                            if (document.getElementById('activeJobsPage').classList.contains('active')) {
+                                loadActiveJobs();
+                            }
+                        } else if (job.status === 'cancelled' && job.completionRejectedAt) {
+                            showToast('Client rejected completion. Please contact support if needed.', 'error');
+                        }
+                    }
+                });
+            
+            unsubscribers.push(unsub);
         }
 
         // Earnings Functions
@@ -2949,11 +3290,11 @@
                     
                     totalEarnings += amount;
                     
-                    if (createdAt >= weekStart) {
+                    if (createdAt && createdAt >= weekStart) {
                         weeklyEarnings += amount;
                     }
                     
-                    if (createdAt >= monthStart) {
+                    if (createdAt && createdAt >= monthStart) {
                         monthlyEarnings += amount;
                     }
                 });
@@ -2965,6 +3306,10 @@
                 document.getElementById('allTimeTotal').textContent = totalEarnings.toFixed(2);
                 document.getElementById('availableBalance').textContent = `KSH ${(runnerData.walletBalance || 0).toFixed(2)}`;
                 
+                // Update dashboard weekly earnings
+                document.getElementById('weeklyEarnings').textContent = `KSH ${weeklyEarnings.toFixed(2)}`;
+                updateEarningsProgress();
+                
             } catch (error) {
                 console.error('Load earnings error:', error);
             }
@@ -2975,11 +3320,12 @@
             const currentEarnings = parseFloat(document.getElementById('weeklyTotal').textContent) || 0;
             const progress = Math.min((currentEarnings / weeklyGoal) * 100, 100);
             
-            document.getElementById('weeklyEarnings').textContent = `KSH ${currentEarnings.toFixed(2)}`;
             document.getElementById('earningsProgress').style.width = `${progress}%`;
             
             const progressText = document.querySelector('#earningsProgress').parentElement.nextElementSibling.firstElementChild;
-            progressText.textContent = `${progress.toFixed(1)}%`;
+            if (progressText) {
+                progressText.textContent = `${progress.toFixed(1)}%`;
+            }
         }
 
         function showWithdrawalFields() {
@@ -3043,12 +3389,8 @@
                     walletBalance: firebase.firestore.FieldValue.increment(-amount)
                 });
                 
-                // Update local data
-                runnerData.walletBalance = (runnerData.walletBalance || 0) - amount;
-                
                 showToast(`Withdrawal request of KSH ${amount.toFixed(2)} submitted successfully!`, 'success');
                 closeModal('withdrawalModal');
-                loadEarningsData();
                 
             } catch (error) {
                 console.error('Withdrawal error:', error);
@@ -3110,16 +3452,15 @@
             if (pageElement) {
                 pageElement.classList.add('active');
                 
-                // Load data for the page if needed
-                if (pageId === 'availableTasks') {
-                    loadAvailableTasks();
-                } else if (pageId === 'myBids') {
-                    loadMyBids();
-                } else if (pageId === 'activeJobs') {
-                    loadActiveJobs();
-                } else if (pageId === 'earnings') {
-                    loadEarningsData();
-                }
+                // Update nav links
+                navLinks.forEach(link => {
+                    const linkPage = link.getAttribute('data-page');
+                    if (linkPage === pageId) {
+                        link.classList.add('active');
+                    } else if (link.id !== 'logoutBtn') {
+                        link.classList.remove('active');
+                    }
+                });
             }
         }
 
@@ -3186,22 +3527,14 @@
         }
 
         function refreshDashboard() {
-            loadDashboardData();
             showToast('Dashboard refreshed!', 'success');
         }
 
-        // Demo functions removed - now using real data only
+        // Helper functions
         function viewTaskDetails(taskId) {
             showToast('Task details will be shown here', 'info');
         }
 
-        function viewJobFromBid(taskId) {
-            showPage('activeJobs');
-            setTimeout(() => {
-                viewJobDetails(taskId);
-            }, 500);
-        }
-        
         // Verification Functions
         let verificationFiles = {
             idFront: null,
@@ -3425,12 +3758,6 @@
                     verificationStatus: 'pending',
                     verificationSubmittedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                
-                // Update local data
-                runnerData.verificationStatus = 'pending';
-                
-                // Update UI
-                updateVerificationStatus();
                 
                 showToast('Verification documents submitted successfully! We will review within 24-48 hours.', 'success');
                 closeModal('verificationModal');
