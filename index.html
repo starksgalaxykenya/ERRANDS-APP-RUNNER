@@ -2212,38 +2212,41 @@
         }
 
         function filterTasks(filter) {
-            const cards = document.querySelectorAll('.task-card');
-            cards.forEach(card => {
-                let show = false;
-                
-                switch(filter) {
-                    case 'all':
-                        show = true;
-                        break;
-                    case 'nearby':
-                        // Simple check - in real app, use location data
-                        show = true;
-                        break;
-                    case 'delivery':
-                        show = card.dataset.type.includes('delivery');
-                        break;
-                    case 'shopping':
-                        show = card.dataset.type.includes('shopping');
-                        break;
-                    case 'repair':
-                        show = card.dataset.type.includes('repair') || card.dataset.type.includes('handy');
-                        break;
-                    case 'high-budget':
-                        show = parseFloat(card.dataset.budget) > 5000;
-                        break;
-                    default:
-                        show = true;
-                }
-                
-                card.style.display = show ? 'block' : 'none';
-            });
+    const cards = document.querySelectorAll('.task-card');
+    cards.forEach(card => {
+        let show = false;
+        
+        // Safely get dataset values with defaults
+        const taskType = card.dataset.type || '';
+        const taskBudget = parseFloat(card.dataset.budget) || 0;
+        
+        switch(filter) {
+            case 'all':
+                show = true;
+                break;
+            case 'nearby':
+                // Simple check - in real app, use location data
+                show = true;
+                break;
+            case 'delivery':
+                show = taskType.includes('delivery');
+                break;
+            case 'shopping':
+                show = taskType.includes('shopping');
+                break;
+            case 'repair':
+                show = taskType.includes('repair') || taskType.includes('handy');
+                break;
+            case 'high-budget':
+                show = taskBudget > 5000;
+                break;
+            default:
+                show = true;
         }
-
+        
+        card.style.display = show ? 'block' : 'none';
+    });
+}
         // Bid Functions
         async function openBidModal(taskId) {
             selectedTaskId = taskId;
@@ -2438,15 +2441,15 @@
         }
 
         function filterBids(filter) {
-            const cards = document.querySelectorAll('.task-card');
-            cards.forEach(card => {
-                if (filter === 'all' || card.dataset.status === filter) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+    const cards = document.querySelectorAll('.task-card');
+    cards.forEach(card => {
+        if (filter === 'all' || (card.dataset.status && card.dataset.status === filter)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
         }
+    });
+}
 
         async function withdrawBid(bidId) {
             if (!confirm('Are you sure you want to withdraw this bid?')) return;
