@@ -1200,17 +1200,16 @@
                 <div style="text-align: center; margin: 20px 0; color: #666;">or</div>
                 <div class="form-group">
                     <label class="form-label">Email Address</label>
-                    <input type="email" id="email" class="form-control" placeholder="Enter your email" value="runner@example.com">
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Password</label>
-                    <input type="password" id="password" class="form-control" placeholder="Enter your password" value="password123">
+                    <input type="password" id="password" class="form-control" placeholder="Enter your password">
                 </div>
                 <button id="emailLoginBtn" class="btn btn-primary" style="width: 100%; margin-bottom: 15px;">Sign In</button>
                 <div id="loginStatus" class="error-message" style="display: none;"></div>
-                <div style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
-                    <p>Demo: Click "Sign In" to use demo credentials</p>
-                    <p style="margin-top: 10px; font-size: 12px;">Email: runner@example.com<br>Password: password123</p>
+                <div style="text-align: center; margin-top: 20px;">
+                    <p>Don't have an account? <a href="#" id="signUpLink" style="color: var(--orange); text-decoration: none;">Sign Up</a></p>
                 </div>
             </div>
         </div>
@@ -1339,7 +1338,7 @@
                     </div>
                     <div class="stat-card purple">
                         <h3>Overall Rating</h3>
-                        <div class="stat-value" id="runnerRating">5.0</div>
+                        <div class="stat-value" id="runnerRating">0.0</div>
                         <div class="stat-trend">
                             <i class="fas fa-star"></i>
                             <span>Based on 0 reviews</span>
@@ -1575,22 +1574,22 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Full Name</label>
-                            <input type="text" id="profileName" class="form-control" value="Loading...">
+                            <input type="text" id="profileName" class="form-control" placeholder="Enter your full name">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Email Address</label>
-                            <input type="email" id="profileEmail" class="form-control" value="Loading...">
+                            <input type="email" id="profileEmail" class="form-control" placeholder="Enter your email" readonly>
                         </div>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Phone Number</label>
-                            <input type="tel" id="profilePhone" class="form-control" value="+254712345678">
+                            <input type="tel" id="profilePhone" class="form-control" placeholder="Enter your phone number">
                         </div>
                         <div class="form-group">
                             <label class="form-label">ID Number</label>
-                            <input type="text" id="profileId" class="form-control" value="12345678">
+                            <input type="text" id="profileId" class="form-control" placeholder="Enter your ID number">
                         </div>
                     </div>
                     
@@ -1614,11 +1613,11 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Town</label>
-                            <input type="text" id="profileTown" class="form-control" value="Nairobi">
+                            <input type="text" id="profileTown" class="form-control" placeholder="Enter your town">
                         </div>
                         <div class="form-group">
                             <label class="form-label">County</label>
-                            <input type="text" id="profileCounty" class="form-control" value="Nairobi County">
+                            <input type="text" id="profileCounty" class="form-control" placeholder="Enter your county">
                         </div>
                     </div>
                     
@@ -1885,6 +1884,7 @@
         const toast = document.getElementById('toast');
         const loadingSpinner = document.getElementById('loadingSpinner');
         const verificationSection = document.getElementById('verificationSection');
+        const signUpLink = document.getElementById('signUpLink');
 
         // Initialize the App
         document.addEventListener('DOMContentLoaded', function() {
@@ -1919,6 +1919,7 @@
             
             if (googleLoginBtn) googleLoginBtn.addEventListener('click', signInWithGoogle);
             if (emailLoginBtn) emailLoginBtn.addEventListener('click', signInWithEmail);
+            if (signUpLink) signUpLink.addEventListener('click', showSignUp);
             
             // Navigation
             navLinks.forEach(link => {
@@ -1998,6 +1999,24 @@
         }
 
         // Authentication Functions
+        function showSignUp(e) {
+            e.preventDefault();
+            // Toggle between login and sign up modes
+            const loginCard = document.querySelector('.login-card');
+            const currentTitle = loginCard.querySelector('h1');
+            const currentBtn = document.getElementById('emailLoginBtn');
+            
+            if (currentTitle.textContent === 'Runner Login') {
+                currentTitle.textContent = 'Create Account';
+                currentBtn.textContent = 'Sign Up';
+                signUpLink.textContent = 'Sign In';
+            } else {
+                currentTitle.textContent = 'Runner Login';
+                currentBtn.textContent = 'Sign In';
+                signUpLink.textContent = 'Sign Up';
+            }
+        }
+
         async function signInWithGoogle() {
             showLoading();
             try {
@@ -2015,6 +2034,8 @@
         async function signInWithEmail() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('emailLoginBtn');
+            const isSignUp = loginBtn.textContent === 'Sign Up';
             
             if (!email || !password) {
                 showLoginError('Please enter email and password');
@@ -2023,50 +2044,33 @@
             
             showLoading();
             try {
-                // Try to sign in with the credentials
-                const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                showToast('Successfully signed in!', 'success');
-            } catch (error) {
-                console.error('Email sign in error:', error);
-                
-                // For demo purposes, auto-create account if it doesn't exist
-                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-                    showLoading();
-                    try {
-                        // Create a new user account for demo
-                        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                        
-                        // Create runner document in Firestore
-                        await db.collection('runners').doc(userCredential.user.uid).set({
-                            email: email,
-                            name: 'Demo Runner',
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            userType: 'runner',
-                            walletBalance: 5000,
-                            rating: 5.0,
-                            totalJobs: 0,
-                            totalEarnings: 0,
-                            profileComplete: false,
-                            isAvailable: true,
-                            verificationStatus: 'not_submitted',
-                            vehicleType: 'motorcycle',
-                            skills: 'Delivery, Shopping, Errands',
-                            bio: 'Experienced runner ready to handle your tasks efficiently.',
-                            phone: '+254712345678',
-                            town: 'Nairobi',
-                            county: 'Nairobi County'
-                        });
-                        
-                        showToast('Demo runner account created! You have KSH 5000 in your wallet.', 'success');
-                    } catch (createError) {
-                        console.error('Create account error:', createError);
-                        showLoginError('Demo: Using auto-created account. Click Sign In again.');
-                    } finally {
-                        hideLoading();
-                    }
+                if (isSignUp) {
+                    // Create new account
+                    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                    
+                    // Create runner document in Firestore
+                    await db.collection('runners').doc(userCredential.user.uid).set({
+                        email: email,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        userType: 'runner',
+                        walletBalance: 0,
+                        rating: 0,
+                        totalJobs: 0,
+                        totalEarnings: 0,
+                        profileComplete: false,
+                        isAvailable: false,
+                        verificationStatus: 'not_submitted'
+                    });
+                    
+                    showToast('Account created successfully! Please complete your profile.', 'success');
                 } else {
-                    showLoginError('Error: ' + error.message);
+                    // Sign in existing account
+                    await auth.signInWithEmailAndPassword(email, password);
+                    showToast('Successfully signed in!', 'success');
                 }
+            } catch (error) {
+                console.error('Email auth error:', error);
+                showLoginError(error.message);
             } finally {
                 hideLoading();
             }
@@ -2120,30 +2124,24 @@
                     // Create runner document if it doesn't exist
                     await db.collection('runners').doc(currentUser.uid).set({
                         email: currentUser.email,
-                        name: currentUser.displayName || 'Demo Runner',
+                        name: currentUser.displayName || '',
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         userType: 'runner',
-                        walletBalance: 5000,
-                        rating: 5.0,
+                        walletBalance: 0,
+                        rating: 0,
                         totalJobs: 0,
                         totalEarnings: 0,
                         profileComplete: false,
-                        isAvailable: true,
-                        verificationStatus: 'not_submitted',
-                        vehicleType: 'motorcycle',
-                        skills: 'Delivery, Shopping, Errands',
-                        bio: 'Experienced runner ready to handle your tasks efficiently.',
-                        phone: '+254712345678',
-                        town: 'Nairobi',
-                        county: 'Nairobi County'
+                        isAvailable: false,
+                        verificationStatus: 'not_submitted'
                     });
                     
                     runnerData = {
                         email: currentUser.email,
-                        name: currentUser.displayName || 'Demo Runner',
-                        walletBalance: 5000,
-                        rating: 5.0,
-                        isAvailable: true,
+                        name: currentUser.displayName || '',
+                        walletBalance: 0,
+                        rating: 0,
+                        isAvailable: false,
                         verificationStatus: 'not_submitted'
                     };
                     
@@ -2155,7 +2153,7 @@
                     // Load dashboard data
                     loadDashboardData();
                     
-                    showToast('Welcome to ERRANDS Runner! You have KSH 5000 in your wallet.', 'success');
+                    showToast('Welcome to ERRANDS Runner! Please complete your profile.', 'success');
                 }
             } catch (error) {
                 console.error('Error loading runner data:', error);
@@ -2300,7 +2298,7 @@
                 });
                 
                 document.getElementById('todayEarnings').textContent = `KSH ${todayEarnings.toFixed(2)}`;
-                document.getElementById('runnerRating').textContent = runnerData.rating?.toFixed(1) || '5.0';
+                document.getElementById('runnerRating').textContent = runnerData.rating?.toFixed(1) || '0.0';
                 
                 // Load recent tasks
                 loadRecentTasks();
@@ -2549,7 +2547,7 @@
                     return;
                 }
                 
-                // Create bid object WITHOUT FieldValue.serverTimestamp() in the object
+                // Create bid object
                 const bid = {
                     runnerId: currentUser.uid,
                     runnerName: runnerData.name,
@@ -2557,7 +2555,7 @@
                     completionTime: parseInt(bidTime),
                     message: bidMessage,
                     status: 'pending',
-                    createdAt: new Date().toISOString() // Use regular date instead of FieldValue
+                    createdAt: new Date().toISOString()
                 };
                 
                 // Add bid to task using arrayUnion
@@ -3192,7 +3190,7 @@
             showToast('Dashboard refreshed!', 'success');
         }
 
-        // Demo functions
+        // Demo functions removed - now using real data only
         function viewTaskDetails(taskId) {
             showToast('Task details will be shown here', 'info');
         }
@@ -3527,16 +3525,6 @@
                     description.style.color = '#856404';
             }
         }
-        
-        // Initialize with demo data
-        window.addEventListener('load', function() {
-            // Show login page
-            showLogin();
-            
-            // Set demo credentials
-            document.getElementById('email').value = 'runner@example.com';
-            document.getElementById('password').value = 'password123';
-        });
     </script>
 </body>
 </html>
