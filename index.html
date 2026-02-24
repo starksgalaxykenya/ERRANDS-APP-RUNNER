@@ -1470,46 +1470,64 @@
             </div>
 
             <!-- Earnings Page -->
-            <div id="earningsPage" class="page">
-                <div class="header">
-                    <h1 class="page-title">My Earnings</h1>
-                    <button class="btn btn-primary" id="requestWithdrawalBtn">
-                        <i class="fas fa-money-check-alt"></i> Request Withdrawal
-                    </button>
-                </div>
-                
-                <!-- Earnings Summary -->
-                <div class="earnings-card">
-                    <div class="earnings-label">Total Available Balance</div>
-                    <div class="earnings-amount" id="totalEarnings">KSH 0</div>
-                    <div style="display: flex; gap: 30px; margin-top: 20px;">
-                        <div>
-                            <div style="font-size: 14px; opacity: 0.9;">This Week</div>
-                            <div style="font-size: 24px; font-weight: 600;">KSH <span id="weeklyTotal">0</span></div>
-                        </div>
-                        <div>
-                            <div style="font-size: 14px; opacity: 0.9;">This Month</div>
-                            <div style="font-size: 24px; font-weight: 600;">KSH <span id="monthlyTotal">0</span></div>
-                        </div>
-                        <div>
-                            <div style="font-size: 14px; opacity: 0.9;">All Time</div>
-                            <div style="font-size: 24px; font-weight: 600;">KSH <span id="allTimeTotal">0</span></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Withdrawal History -->
-                <h2 style="margin-bottom: 20px; margin-top: 30px; font-family: 'Poppins', sans-serif;">Withdrawal History</h2>
-                <div class="bid-history">
-                    <div id="withdrawalHistory">
-                        <div style="text-align: center; padding: 40px; color: #666;">
-                            <i class="fas fa-history" style="font-size: 48px; margin-bottom: 20px;"></i>
-                            <h3>No withdrawals yet</h3>
-                            <p>Your withdrawal history will appear here</p>
-                        </div>
-                    </div>
-                </div>
+<div id="earningsPage" class="page">
+    <div class="header">
+        <h1 class="page-title">My Earnings</h1>
+        <button class="btn btn-primary" id="requestWithdrawalBtn">
+            <i class="fas fa-money-check-alt"></i> Request Withdrawal
+        </button>
+    </div>
+    
+    <!-- Earnings Summary -->
+    <div class="earnings-card">
+        <div class="earnings-label">Total Available Balance</div>
+        <div class="earnings-amount" id="totalEarnings">KSH 0</div>
+        <div style="display: flex; gap: 30px; margin-top: 20px; flex-wrap: wrap;">
+            <div>
+                <div style="font-size: 14px; opacity: 0.9;">This Week</div>
+                <div style="font-size: 24px; font-weight: 600;">KSH <span id="weeklyTotal">0</span></div>
             </div>
+            <div>
+                <div style="font-size: 14px; opacity: 0.9;">This Month</div>
+                <div style="font-size: 24px; font-weight: 600;">KSH <span id="monthlyTotal">0</span></div>
+            </div>
+            <div>
+                <div style="font-size: 14px; opacity: 0.9;">All Time</div>
+                <div style="font-size: 24px; font-weight: 600;">KSH <span id="allTimeTotal">0</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Earnings History -->
+    <h2 style="margin-bottom: 20px; margin-top: 30px; font-family: 'Poppins', sans-serif;">
+        <i class="fas fa-history" style="margin-right: 10px; color: var(--orange);"></i>
+        Earnings History
+    </h2>
+    
+    <div id="earningsHistory" class="bid-history" style="margin-bottom: 30px;">
+        <div style="text-align: center; padding: 40px; color: #666;">
+            <i class="fas fa-chart-line" style="font-size: 48px; margin-bottom: 20px;"></i>
+            <h3>No earnings yet</h3>
+            <p>Your completed errand payments will appear here</p>
+        </div>
+    </div>
+    
+    <!-- Withdrawal History -->
+    <h2 style="margin-bottom: 20px; margin-top: 30px; font-family: 'Poppins', sans-serif;">
+        <i class="fas fa-money-check-alt" style="margin-right: 10px; color: var(--orange);"></i>
+        Withdrawal History
+    </h2>
+    
+    <div class="bid-history">
+        <div id="withdrawalHistory">
+            <div style="text-align: center; padding: 40px; color: #666;">
+                <i class="fas fa-history" style="font-size: 48px; margin-bottom: 20px;"></i>
+                <h3>No withdrawals yet</h3>
+                <p>Your withdrawal history will appear here</p>
+            </div>
+        </div>
+    </div>
+</div>
 
             <!-- Profile Page -->
             <div id="profilePage" class="page">
@@ -2903,53 +2921,196 @@
             }
         }
 
-        // Earnings Functions
-        async function loadEarningsData() {
-            try {
-                const snapshot = await db.collection('errands')
-                    .where('assignedRunnerId', '==', currentUser.uid)
-                    .where('status', '==', 'completed')
-                    .get();
-                
-                let totalEarnings = 0;
-                let weeklyEarnings = 0;
-                let monthlyEarnings = 0;
-                
-                const now = new Date();
-                const weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
-                const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-                
-                snapshot.forEach(doc => {
-                    const job = doc.data();
-                    const amount = job.runnerAmount || 0;
-                    const completedAt = job.completedAt ? job.completedAt.toDate() : null;
-                    
-                    totalEarnings += amount;
-                    
-                    if (completedAt && completedAt >= weekStart) {
-                        weeklyEarnings += amount;
-                    }
-                    
-                    if (completedAt && completedAt >= monthStart) {
-                        monthlyEarnings += amount;
-                    }
-                });
-                
-                // Update UI
-                document.getElementById('totalEarnings').textContent = `KSH ${totalEarnings.toFixed(2)}`;
-                document.getElementById('weeklyTotal').textContent = weeklyEarnings.toFixed(2);
-                document.getElementById('monthlyTotal').textContent = monthlyEarnings.toFixed(2);
-                document.getElementById('allTimeTotal').textContent = totalEarnings.toFixed(2);
-                document.getElementById('availableBalance').textContent = `KSH ${(runnerData.walletBalance || 0).toFixed(2)}`;
-                
-                // Update dashboard weekly earnings
-                document.getElementById('weeklyEarnings').textContent = `KSH ${weeklyEarnings.toFixed(2)}`;
-                updateEarningsProgress();
-                
-            } catch (error) {
-                console.error('Load earnings error:', error);
+       // Earnings Functions
+async function loadEarningsData() {
+    try {
+        // Get completed errands for this runner
+        const snapshot = await db.collection('errands')
+            .where('assignedRunnerId', '==', currentUser.uid)
+            .where('status', '==', 'completed')
+            .orderBy('completedAt', 'desc')
+            .get();
+        
+        let totalEarnings = 0;
+        let weeklyEarnings = 0;
+        let monthlyEarnings = 0;
+        
+        const now = new Date();
+        const weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+        const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+        
+        // Build earnings history HTML
+        let earningsHistoryHtml = '<div style="display: grid; gap: 15px;">';
+        
+        snapshot.forEach(doc => {
+            const job = doc.data();
+            const amount = job.finalRunnerAmount || job.acceptedBidRunnerAmount || (job.acceptedBid ? job.acceptedBid * 0.8 : 0);
+            const completedAt = job.completedAt ? job.completedAt.toDate() : null;
+            
+            totalEarnings += amount;
+            
+            if (completedAt && completedAt >= weekStart) {
+                weeklyEarnings += amount;
             }
+            
+            if (completedAt && completedAt >= monthStart) {
+                monthlyEarnings += amount;
+            }
+            
+            // Format date
+            const dateStr = completedAt ? completedAt.toLocaleDateString() + ' ' + completedAt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'Recent';
+            
+            // Create earnings history item
+            earningsHistoryHtml += `
+                <div style="background: white; border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); border-left: 5px solid var(--lime-green);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <div>
+                            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 5px;">${job.errandType || 'Errand'}</h3>
+                            <p style="color: #666; font-size: 14px;">${job.description ? job.description.substring(0, 60) + (job.description.length > 60 ? '...' : '') : ''}</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 20px; font-weight: 700; color: var(--dark-green);">KSH ${amount.toFixed(2)}</div>
+                            <div style="font-size: 12px; color: #999;">${dateStr}</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap; border-top: 1px solid var(--medium-gray); padding-top: 15px;">
+                        <div style="flex: 1;">
+                            <div style="font-size: 12px; color: #666;">Client</div>
+                            <div style="font-weight: 500;">${job.clientName || 'Unknown'}</div>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 12px; color: #666;">Location</div>
+                            <div style="font-weight: 500;">${job.town || ''}, ${job.area || ''}</div>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 12px; color: #666;">Accepted Bid</div>
+                            <div style="font-weight: 500;">KSH ${(job.acceptedBid || 0).toFixed(2)}</div>
+                        </div>
+                        ${job.completionNotes ? `
+                        <div style="flex: 1 1 100%; margin-top: 10px;">
+                            <div style="font-size: 12px; color: #666;">Completion Notes</div>
+                            <div style="font-style: italic; color: #666;">"${job.completionNotes}"</div>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        });
+        
+        earningsHistoryHtml += '</div>';
+        
+        // Update UI
+        document.getElementById('totalEarnings').textContent = `KSH ${(runnerData.walletBalance || 0).toFixed(2)}`;
+        document.getElementById('weeklyTotal').textContent = weeklyEarnings.toFixed(2);
+        document.getElementById('monthlyTotal').textContent = monthlyEarnings.toFixed(2);
+        document.getElementById('allTimeTotal').textContent = totalEarnings.toFixed(2);
+        document.getElementById('availableBalance').textContent = `KSH ${(runnerData.walletBalance || 0).toFixed(2)}`;
+        
+        // Update earnings history
+        const earningsHistory = document.getElementById('earningsHistory');
+        if (snapshot.empty) {
+            earningsHistory.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #666; background: white; border-radius: var(--radius);">
+                    <i class="fas fa-chart-line" style="font-size: 48px; margin-bottom: 20px; color: var(--medium-gray);"></i>
+                    <h3>No earnings yet</h3>
+                    <p>Your completed errand payments will appear here</p>
+                </div>
+            `;
+        } else {
+            earningsHistory.innerHTML = earningsHistoryHtml;
         }
+        
+        // Update dashboard weekly earnings
+        document.getElementById('weeklyEarnings').textContent = `KSH ${weeklyEarnings.toFixed(2)}`;
+        updateEarningsProgress();
+        
+        // Load withdrawal history
+        loadWithdrawalHistory();
+        
+    } catch (error) {
+        console.error('Load earnings error:', error);
+    }
+}
+
+// New function to load withdrawal history
+async function loadWithdrawalHistory() {
+    try {
+        const snapshot = await db.collection('withdrawals')
+            .where('runnerId', '==', currentUser.uid)
+            .orderBy('createdAt', 'desc')
+            .get();
+        
+        const withdrawalHistory = document.getElementById('withdrawalHistory');
+        
+        if (snapshot.empty) {
+            withdrawalHistory.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    <i class="fas fa-history" style="font-size: 48px; margin-bottom: 20px;"></i>
+                    <h3>No withdrawals yet</h3>
+                    <p>Your withdrawal history will appear here</p>
+                </div>
+            `;
+            return;
+        }
+        
+        let withdrawalsHtml = '<div style="display: grid; gap: 15px;">';
+        
+        snapshot.forEach(doc => {
+            const withdrawal = doc.data();
+            const date = withdrawal.createdAt ? withdrawal.createdAt.toDate().toLocaleDateString() : 'Recent';
+            
+            let statusClass = '';
+            let statusText = withdrawal.status.toUpperCase();
+            
+            if (withdrawal.status === 'completed') {
+                statusClass = 'status-completed';
+            } else if (withdrawal.status === 'pending') {
+                statusClass = 'status-pending';
+            } else if (withdrawal.status === 'rejected') {
+                statusClass = 'status-cancelled';
+            }
+            
+            let methodDetails = '';
+            if (withdrawal.method === 'mpesa') {
+                methodDetails = `<div style="font-size: 13px;">To: ${withdrawal.mpesaNumber}</div>`;
+            } else if (withdrawal.method === 'bank') {
+                methodDetails = `<div style="font-size: 13px;">Bank Transfer</div>`;
+            }
+            
+            withdrawalsHtml += `
+                <div style="background: white; border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <div>
+                            <div style="font-size: 18px; font-weight: 600; color: var(--dark-green);">KSH ${withdrawal.amount.toFixed(2)}</div>
+                            <div style="font-size: 13px; color: #666;">${date}</div>
+                        </div>
+                        <span class="task-status ${statusClass}">${statusText}</span>
+                    </div>
+                    <div style="border-top: 1px solid var(--medium-gray); padding-top: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-size: 14px; font-weight: 500;">${withdrawal.method === 'mpesa' ? 'M-Pesa' : 'Bank Transfer'}</div>
+                                ${methodDetails}
+                            </div>
+                            ${withdrawal.processedAt ? `
+                            <div style="font-size: 12px; color: #666;">
+                                Processed: ${withdrawal.processedAt.toDate().toLocaleDateString()}
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        withdrawalsHtml += '</div>';
+        withdrawalHistory.innerHTML = withdrawalsHtml;
+        
+    } catch (error) {
+        console.error('Error loading withdrawal history:', error);
+    }
+}
 
         function updateEarningsProgress() {
             const weeklyGoal = 10000;
@@ -2969,60 +3130,72 @@
         }
 
         async function processWithdrawal() {
-            const amount = parseFloat(document.getElementById('withdrawalAmount').value);
-            const method = document.getElementById('withdrawalMethod').value;
-            const mpesaNumber = document.getElementById('mpesaNumber').value;
-            const bankDetails = document.getElementById('bankDetails').value;
-            
-            if (!amount || amount < 500) {
-                showToast('Minimum withdrawal amount is KSH 500', 'error');
-                return;
-            }
-            
-            if (amount > (runnerData.walletBalance || 0)) {
-                showToast('Insufficient balance for withdrawal', 'error');
-                return;
-            }
-            
-            if (method === 'mpesa' && (!mpesaNumber || mpesaNumber.length !== 10)) {
-                showToast('Please enter a valid M-Pesa number (10 digits)', 'error');
-                return;
-            }
-            
-            if (method === 'bank' && !bankDetails) {
-                showToast('Please enter bank account details', 'error');
-                return;
-            }
-            
-            showLoading();
-            try {
-                // Record withdrawal request
-                await db.collection('withdrawals').add({
-                    runnerId: currentUser.uid,
-                    runnerName: runnerData.name,
-                    amount: amount,
-                    method: method,
-                    mpesaNumber: mpesaNumber,
-                    bankDetails: bankDetails,
-                    status: 'pending',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                
-                // Deduct from wallet
-                await db.collection('runners').doc(currentUser.uid).update({
-                    walletBalance: firebase.firestore.FieldValue.increment(-amount)
-                });
-                
-                showToast(`Withdrawal request of KSH ${amount.toFixed(2)} submitted successfully!`, 'success');
-                closeModal('withdrawalModal');
-                
-            } catch (error) {
-                console.error('Withdrawal error:', error);
-                showToast('Error processing withdrawal: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
+    const amount = parseFloat(document.getElementById('withdrawalAmount').value);
+    const method = document.getElementById('withdrawalMethod').value;
+    const mpesaNumber = document.getElementById('mpesaNumber').value;
+    const bankDetails = document.getElementById('bankDetails').value;
+    
+    if (!amount || amount < 500) {
+        showToast('Minimum withdrawal amount is KSH 500', 'error');
+        return;
+    }
+    
+    if (amount > (runnerData.walletBalance || 0)) {
+        showToast('Insufficient balance for withdrawal', 'error');
+        return;
+    }
+    
+    if (method === 'mpesa' && (!mpesaNumber || mpesaNumber.length < 10)) {
+        showToast('Please enter a valid M-Pesa number', 'error');
+        return;
+    }
+    
+    if (method === 'bank' && !bankDetails) {
+        showToast('Please enter bank account details', 'error');
+        return;
+    }
+    
+    showLoading();
+    try {
+        // Create withdrawal request
+        const withdrawalData = {
+            runnerId: currentUser.uid,
+            runnerName: runnerData.name || currentUser.email,
+            amount: amount,
+            method: method,
+            status: 'pending',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        
+        if (method === 'mpesa') {
+            withdrawalData.mpesaNumber = mpesaNumber;
+        } else if (method === 'bank') {
+            withdrawalData.bankDetails = bankDetails;
         }
+        
+        await db.collection('withdrawals').add(withdrawalData);
+        
+        // Deduct from wallet
+        await db.collection('runners').doc(currentUser.uid).update({
+            walletBalance: firebase.firestore.FieldValue.increment(-amount)
+        });
+        
+        // Update local data
+        runnerData.walletBalance -= amount;
+        
+        showToast(`Withdrawal request of KSH ${amount.toFixed(2)} submitted successfully!`, 'success');
+        closeModal('withdrawalModal');
+        
+        // Refresh earnings data
+        loadEarningsData();
+        
+    } catch (error) {
+        console.error('Withdrawal error:', error);
+        showToast('Error processing withdrawal: ' + error.message, 'error');
+    } finally {
+        hideLoading();
+    }
+}
 
         // Utility Functions
         async function toggleAvailability() {
