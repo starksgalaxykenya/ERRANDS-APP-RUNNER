@@ -2512,43 +2512,52 @@
         }
 
         async function changeProfilePhoto() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            
-            input.onchange = async (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-                
-                showLoading();
-                try {
-                    // Upload to Firebase Storage
-                    const storageRef = storage.ref();
-                    const photoRef = storageRef.child(`runner_photos/${currentUser.uid}/${file.name}`);
-                    await photoRef.put(file);
-                    const photoURL = await photoRef.getDownloadURL();
-                    
-                    // Update runner document
-                    await db.collection('runners').doc(currentUser.uid).update({
-                        photoURL: photoURL
-                    });
-                    
-                    // Update UI
-                    document.getElementById('runnerAvatar').src = photoURL;
-                    document.getElementById('profilePhoto').src = photoURL;
-                    runnerData.photoURL = photoURL;
-                    
-                    showToast('Profile photo updated!', 'success');
-                } catch (error) {
-                    console.error('Photo upload error:', error);
-                    showToast('Error uploading photo: ' + error.message, 'error');
-                } finally {
-                    hideLoading();
-                }
-            };
-            
-            input.click();
-        }
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  
+  input.onchange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    showLoading();
+    try {
+      // Sanitize filename (remove spaces and special characters)
+      const safeFileName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
+      
+      const storageRef = storage.ref();
+      // CHANGE THIS LINE: from 'runner_photos/' to 'profile_photos/'
+      const photoRef = storageRef.child(`profile_photos/${currentUser.uid}/${safeFileName}`);
+      await photoRef.put(file);
+      const photoURL = await photoRef.getDownloadURL();
+      
+      // Update runner document
+      await db.collection('runners').doc(currentUser.uid).update({
+        photoURL: photoURL
+      });
+      
+      // Update UI
+      document.getElementById('runnerAvatar').src = photoURL;
+      document.getElementById('profilePhoto').src = photoURL;
+      runnerData.photoURL = photoURL;
+      
+      showToast('Profile photo updated!', 'success');
+    } catch (error) {
+      console.error('Photo upload error:', error);
+      
+      // More specific error message
+      if (error.code === 'storage/unauthorized') {
+        showToast('Storage permission denied. Please check your upload path.', 'error');
+      } else {
+        showToast('Error uploading photo: ' + error.message, 'error');
+      }
+    } finally {
+      hideLoading();
+    }
+  };
+  
+  input.click();
+}
 
         // Dashboard Functions
         async function loadDashboardData() {
