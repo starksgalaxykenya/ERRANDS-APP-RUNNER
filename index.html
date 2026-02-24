@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ERRANDS - Runner Dashboard</title>
     
-    <!-- Favicon (Fixes 404 error) -->
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏃</text></svg>">
-    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏃</text></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏃</text></svg>">
     
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -22,7 +20,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
-     <style>
+    <style>
         /* All CSS styles remain exactly the same as before */
         :root {
             --lime-green: #32cd32;
@@ -473,24 +471,19 @@
             font-weight: 500;
         }
 
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
         .status-available {
             background-color: #d4edda;
             color: #155724;
         }
 
-        .status-bidding {
+        .status-active {
             background-color: #d1ecf1;
             color: #0c5460;
-        }
-
-        .status-assigned {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-
-        .status-in-progress {
-            background-color: #cce5ff;
-            color: #004085;
         }
 
         .status-completed {
@@ -501,11 +494,6 @@
         .status-cancelled {
             background-color: #f8d7da;
             color: #721c24;
-        }
-        
-        .status-pending_client_approval {
-            background-color: #fff3cd;
-            color: #856404;
         }
 
         /* Bid Modal */
@@ -894,20 +882,25 @@
             text-align: center;
         }
 
-        /* Map Container */
-        .map-container {
-            height: 300px;
-            background-color: #e9ecef;
+        /* Dashboard Welcome */
+        .dashboard-welcome {
+            background: linear-gradient(135deg, var(--orange) 0%, #ff5500 100%);
+            color: white;
+            padding: 25px;
             border-radius: var(--radius);
-            overflow: hidden;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
         }
 
-        /* Task Actions */
-        .task-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
+        .dashboard-welcome h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-welcome p {
+            opacity: 0.9;
+            font-size: 16px;
         }
 
         /* Profile Prompt */
@@ -943,6 +936,62 @@
         .profile-prompt-text p {
             color: #856404;
             font-size: 14px;
+        }
+
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .login-left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            background: linear-gradient(135deg, var(--orange) 0%, var(--light-blue) 100%);
+            color: white;
+        }
+
+        .login-right {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+        }
+
+        .google-btn {
+            width: 100%;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            padding: 14px;
+            font-weight: 500;
+            color: #444;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .google-btn:hover {
+            background-color: #f5f5f5;
         }
 
         /* Responsive Styles */
@@ -1117,146 +1166,6 @@
         .page.active {
             display: block;
         }
-
-        /* Dashboard Welcome */
-        .dashboard-welcome {
-            background: linear-gradient(135deg, var(--orange) 0%, #ff5500 100%);
-            color: white;
-            padding: 25px;
-            border-radius: var(--radius);
-            margin-bottom: 25px;
-            box-shadow: var(--shadow);
-        }
-
-        .dashboard-welcome h2 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .dashboard-welcome p {
-            opacity: 0.9;
-            font-size: 16px;
-        }
-
-        /* Verification Section Styles */
-        .verification-section {
-            max-width: 800px;
-            margin: 30px auto 0;
-            background-color: var(--white);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 30px;
-            animation: slideUp 0.5s ease;
-        }
-        
-        .verification-section h2 {
-            margin-bottom: 20px;
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .verification-section h2 i {
-            color: var(--orange);
-        }
-        
-        .verification-status {
-            background-color: #fff3cd;
-            border-left: 5px solid #ffc107;
-            padding: 20px;
-            border-radius: var(--radius);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .verification-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .verification-feature {
-            background-color: var(--light-gray);
-            padding: 20px;
-            border-radius: var(--radius);
-            text-align: center;
-        }
-        
-        .verification-feature i {
-            font-size: 32px;
-            color: var(--orange);
-            margin-bottom: 15px;
-        }
-        
-        .verification-feature h3 {
-            margin-bottom: 10px;
-        }
-        
-        .verification-feature p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        /* Login Page Styles */
-        .login-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        .login-left {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            background: linear-gradient(135deg, var(--orange) 0%, var(--light-blue) 100%);
-            color: white;
-        }
-
-        .login-right {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            background-color: rgba(255, 255, 255, 0.95);
-        }
-
-        .login-card {
-            width: 100%;
-            max-width: 420px;
-            background-color: var(--white);
-            border-radius: var(--radius);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            padding: 40px;
-        }
-
-        .google-btn {
-            width: 100%;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: var(--radius);
-            padding: 14px;
-            font-weight: 500;
-            color: #444;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .google-btn:hover {
-            background-color: #f5f5f5;
-        }
     </style>
 </head>
 <body>
@@ -1292,11 +1201,11 @@
                 <div style="text-align: center; margin: 20px 0; color: #666;">or</div>
                 <div class="form-group">
                     <label class="form-label">Email Address</label>
-                    <input type="email" id="email" class="form-control" placeholder="Enter your email">
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email" value="runner@example.com">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Password</label>
-                    <input type="password" id="password" class="form-control" placeholder="Enter your password">
+                    <input type="password" id="password" class="form-control" placeholder="Enter your password" value="password123">
                 </div>
                 <button id="emailLoginBtn" class="btn btn-primary" style="width: 100%; margin-bottom: 15px;">Sign In</button>
                 <div id="loginStatus" class="error-message" style="display: none;"></div>
@@ -1494,46 +1403,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Account Verification Section (Only shown after login for unverified users) -->
-                <div id="verificationSection" class="verification-section" style="display: none;">
-                    <h2>
-                        <i class="fas fa-shield-alt"></i>
-                        Account Verification
-                    </h2>
-                    
-                    <div id="verificationStatus" class="verification-status">
-                        <i class="fas fa-exclamation-triangle" style="font-size: 24px; color: #856404;"></i>
-                        <div>
-                            <h3 style="margin-bottom: 5px; color: #856404;">Verification Pending</h3>
-                            <p style="color: #856404; margin: 0;">Verify your account to unlock higher earnings and more tasks</p>
-                        </div>
-                    </div>
-                    
-                    <div class="verification-features">
-                        <div class="verification-feature">
-                            <i class="fas fa-id-card"></i>
-                            <h3>ID Verification</h3>
-                            <p>Upload front and back of your National ID</p>
-                        </div>
-                        <div class="verification-feature">
-                            <i class="fas fa-camera"></i>
-                            <h3>Selfie Verification</h3>
-                            <p>Take a clear selfie holding your ID</p>
-                        </div>
-                        <div class="verification-feature">
-                            <i class="fas fa-check-circle"></i>
-                            <h3>Benefits</h3>
-                            <p>Higher earnings, more tasks, priority support</p>
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center;">
-                        <button id="verifyAccountBtn" class="btn btn-primary" style="padding: 15px 40px;">
-                            <i class="fas fa-shield-alt"></i> Start Verification Process
-                        </button>
-                    </div>
-                </div>
             </div>
 
             <!-- Available Tasks Page -->
@@ -1550,7 +1419,6 @@
                 <!-- Filters -->
                 <div class="filter-buttons">
                     <button class="filter-btn active" data-filter="all">All Tasks</button>
-                    <button class="filter-btn" data-filter="nearby">Near Me</button>
                     <button class="filter-btn" data-filter="delivery">Delivery</button>
                     <button class="filter-btn" data-filter="shopping">Shopping</button>
                     <button class="filter-btn" data-filter="repair">Repair</button>
@@ -1579,7 +1447,6 @@
                     <button class="filter-btn" data-bid-filter="pending">Pending</button>
                     <button class="filter-btn" data-bid-filter="accepted">Accepted</button>
                     <button class="filter-btn" data-bid-filter="rejected">Rejected</button>
-                    <button class="filter-btn" data-bid-filter="expired">Expired</button>
                 </div>
                 
                 <div id="bidsError" class="error-message" style="display: none;"></div>
@@ -1593,11 +1460,6 @@
             <div id="activeJobsPage" class="page">
                 <div class="header">
                     <h1 class="page-title">Active Jobs</h1>
-                    <div>
-                        <button class="btn btn-success" id="completeJobBtn" style="display: none;">
-                            <i class="fas fa-check-circle"></i> Mark as Complete
-                        </button>
-                    </div>
                 </div>
                 
                 <div id="activeJobsError" class="error-message" style="display: none;"></div>
@@ -1647,16 +1509,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Earnings Chart -->
-                <h2 style="margin-bottom: 20px; margin-top: 30px; font-family: 'Poppins', sans-serif;">Earnings Overview</h2>
-                <div style="background-color: white; border-radius: var(--radius); padding: 25px; box-shadow: var(--shadow);">
-                    <div id="earningsChartPlaceholder" style="text-align: center; padding: 40px; color: #666;">
-                        <i class="fas fa-chart-bar" style="font-size: 48px; margin-bottom: 20px;"></i>
-                        <h3>Earnings Chart</h3>
-                        <p>Your earnings data will be displayed here</p>
-                    </div>
-                </div>
             </div>
 
             <!-- Profile Page -->
@@ -1704,23 +1556,6 @@
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label class="form-label">Vehicle Type (if any)</label>
-                            <select id="profileVehicle" class="form-control">
-                                <option value="">None</option>
-                                <option value="bicycle">Bicycle</option>
-                                <option value="motorcycle">Motorcycle</option>
-                                <option value="car">Car</option>
-                                <option value="truck">Truck</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Special Skills</label>
-                            <input type="text" id="profileSkills" class="form-control" placeholder="e.g., Delivery, Repair, Shopping">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
                             <label class="form-label">Town</label>
                             <input type="text" id="profileTown" class="form-control" placeholder="Enter your town">
                         </div>
@@ -1728,11 +1563,6 @@
                             <label class="form-label">County</label>
                             <input type="text" id="profileCounty" class="form-control" placeholder="Enter your county">
                         </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Bio/Description</label>
-                        <textarea id="profileBio" class="form-control" rows="4" placeholder="Tell clients about yourself and your experience..."></textarea>
                     </div>
                     
                     <div style="margin-top: 30px; text-align: center;">
@@ -1769,15 +1599,8 @@
                             <div style="margin-top: 5px; font-size: 12px; color: #666;">Task budget: KSH <span id="taskBudget">0</span></div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Estimated Completion Time</label>
-                            <select id="bidTime" class="form-control">
-                                <option value="1">Within 1 hour</option>
-                                <option value="2">Within 2 hours</option>
-                                <option value="4">Within 4 hours</option>
-                                <option value="8">Within 8 hours</option>
-                                <option value="24">Within 24 hours</option>
-                                <option value="48">Within 48 hours</option>
-                            </select>
+                            <label class="form-label">Completion Time (hours)</label>
+                            <input type="number" id="bidTime" class="form-control" min="1" max="72" value="2" placeholder="Hours">
                         </div>
                     </div>
                     
@@ -1866,12 +1689,11 @@
                     <select id="withdrawalMethod" class="form-control">
                         <option value="mpesa">M-Pesa</option>
                         <option value="bank">Bank Transfer</option>
-                        <option value="paypal">PayPal</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" id="mpesaLabel" style="display: none;">M-Pesa Number</label>
-                    <input type="tel" id="mpesaNumber" class="form-control" style="display: none;" placeholder="07XXXXXXXX">
+                    <label class="form-label" id="mpesaLabel">M-Pesa Number</label>
+                    <input type="tel" id="mpesaNumber" class="form-control" placeholder="07XXXXXXXX">
                 </div>
                 <div class="form-group">
                     <label class="form-label" id="bankLabel" style="display: none;">Bank Account Details</label>
@@ -1881,82 +1703,6 @@
             <div class="modal-footer">
                 <button class="btn btn-outline" onclick="closeModal('withdrawalModal')">Cancel</button>
                 <button id="confirmWithdrawalBtn" class="btn btn-primary">Request Withdrawal</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Verification Modal -->
-    <div id="verificationModal" class="modal">
-        <div class="modal-content" style="max-width: 600px;">
-            <div class="modal-header">
-                <h2>Account Verification</h2>
-                <button class="close-modal" onclick="closeModal('verificationModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div style="margin-bottom: 25px;">
-                    <h3 style="margin-bottom: 10px;">Verification Steps:</h3>
-                    <ol style="margin-left: 20px; color: #666; line-height: 1.8;">
-                        <li>Upload front side of your National ID</li>
-                        <li>Upload back side of your National ID</li>
-                        <li>Upload a clear selfie holding your ID (face visible)</li>
-                        <li>Submit for review (takes 24-48 hours)</li>
-                    </ol>
-                </div>
-                
-                <div id="uploadError" class="error-message" style="display: none;"></div>
-                
-                <!-- ID Front Upload -->
-                <div class="form-group">
-                    <label class="form-label">
-                        <i class="fas fa-id-card"></i> ID Front Side
-                        <span style="color: #999; font-size: 12px; margin-left: 10px;">(JPG, PNG, PDF - Max 5MB)</span>
-                    </label>
-                    <div class="upload-area" id="idFrontUpload" style="border: 2px dashed var(--medium-gray); border-radius: var(--radius); padding: 30px; text-align: center; cursor: pointer; transition: var(--transition); background-color: #f9f9f9;">
-                        <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: var(--orange); margin-bottom: 10px;"></i>
-                        <p style="margin-bottom: 5px;">Click to upload or drag and drop</p>
-                        <p id="idFrontFileName" style="font-size: 12px; color: var(--orange); display: none;"></p>
-                    </div>
-                    <input type="file" id="idFrontFile" accept="image/*,.pdf" style="display: none;">
-                </div>
-                
-                <!-- ID Back Upload -->
-                <div class="form-group">
-                    <label class="form-label">
-                        <i class="fas fa-id-card"></i> ID Back Side
-                        <span style="color: #999; font-size: 12px; margin-left: 10px;">(JPG, PNG, PDF - Max 5MB)</span>
-                    </label>
-                    <div class="upload-area" id="idBackUpload" style="border: 2px dashed var(--medium-gray); border-radius: var(--radius); padding: 30px; text-align: center; cursor: pointer; transition: var(--transition); background-color: #f9f9f9;">
-                        <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: var(--orange); margin-bottom: 10px;"></i>
-                        <p style="margin-bottom: 5px;">Click to upload or drag and drop</p>
-                        <p id="idBackFileName" style="font-size: 12px; color: var(--orange); display: none;"></p>
-                    </div>
-                    <input type="file" id="idBackFile" accept="image/*,.pdf" style="display: none;">
-                </div>
-                
-                <!-- Selfie Upload -->
-                <div class="form-group">
-                    <label class="form-label">
-                        <i class="fas fa-camera"></i> Selfie with ID
-                        <span style="color: #999; font-size: 12px; margin-left: 10px;">(Face clearly visible, holding ID)</span>
-                    </label>
-                    <div class="upload-area" id="selfieUpload" style="border: 2px dashed var(--medium-gray); border-radius: var(--radius); padding: 30px; text-align: center; cursor: pointer; transition: var(--transition); background-color: #f9f9f9;">
-                        <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: var(--orange); margin-bottom: 10px;"></i>
-                        <p style="margin-bottom: 5px;">Click to upload or drag and drop</p>
-                        <p id="selfieFileName" style="font-size: 12px; color: var(--orange); display: none;"></p>
-                    </div>
-                    <input type="file" id="selfieFile" accept="image/*" style="display: none;">
-                </div>
-                
-                <div style="background-color: #e7f3ff; padding: 15px; border-radius: var(--radius); margin-top: 20px;">
-                    <i class="fas fa-info-circle" style="color: var(--light-blue); margin-right: 10px;"></i>
-                    <span style="font-size: 14px;">Your documents are secure and encrypted. They will only be used for verification purposes.</span>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeModal('verificationModal')">Cancel</button>
-                <button id="submitVerificationBtn" class="btn btn-primary">
-                    <i class="fas fa-paper-plane"></i> Submit for Verification
-                </button>
             </div>
         </div>
     </div>
@@ -2006,7 +1752,6 @@
         // Global Variables
         let currentUser = null;
         let runnerData = {};
-        let currentLocation = null;
         let selectedTaskId = null;
         let selectedJobId = null;
 
@@ -2017,7 +1762,6 @@
         const navLinks = document.querySelectorAll('.nav-link');
         const toast = document.getElementById('toast');
         const loadingSpinner = document.getElementById('loadingSpinner');
-        const verificationSection = document.getElementById('verificationSection');
         const signUpLink = document.getElementById('signUpLink');
 
         // Initialize the App
@@ -2047,9 +1791,6 @@
                     showLogin();
                 }
             });
-            
-            // Get current location for nearby tasks
-            getCurrentLocation();
         });
 
         // Event Listeners
@@ -2128,15 +1869,11 @@
                     e.target.classList.remove('active');
                 }
             });
-            
-            // Initialize verification
-            initVerification();
         }
 
         // Authentication Functions
         function showSignUp(e) {
             e.preventDefault();
-            // Toggle between login and sign up modes
             const loginCard = document.querySelector('.login-card');
             const currentTitle = loginCard.querySelector('h1');
             const currentBtn = document.getElementById('emailLoginBtn');
@@ -2186,15 +1923,15 @@
                     // Create runner document in Firestore
                     await db.collection('runners').doc(userCredential.user.uid).set({
                         email: email,
+                        name: email.split('@')[0],
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         userType: 'runner',
                         walletBalance: 0,
-                        rating: 0,
+                        rating: 5.0,
                         totalJobs: 0,
                         totalEarnings: 0,
                         profileComplete: false,
-                        isAvailable: false,
-                        verificationStatus: 'not_submitted'
+                        isAvailable: false
                     });
                     
                     showToast('Account created successfully! Please complete your profile.', 'success');
@@ -2244,9 +1981,6 @@
                     // Update UI with runner data
                     updateRunnerUI();
                     
-                    // Load verification status and show/hide verification section
-                    updateVerificationStatus();
-                    
                     // Show profile prompt if profile is incomplete
                     checkProfileCompletion();
                     
@@ -2258,37 +1992,28 @@
                     // Create runner document if it doesn't exist
                     await db.collection('runners').doc(currentUser.uid).set({
                         email: currentUser.email,
-                        name: currentUser.displayName || '',
+                        name: currentUser.displayName || currentUser.email.split('@')[0],
                         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                         userType: 'runner',
                         walletBalance: 0,
-                        rating: 0,
+                        rating: 5.0,
                         totalJobs: 0,
                         totalEarnings: 0,
                         profileComplete: false,
-                        isAvailable: false,
-                        verificationStatus: 'not_submitted'
+                        isAvailable: false
                     });
                     
                     runnerData = {
                         email: currentUser.email,
-                        name: currentUser.displayName || '',
+                        name: currentUser.displayName || currentUser.email.split('@')[0],
                         walletBalance: 0,
-                        rating: 0,
+                        rating: 5.0,
                         isAvailable: false,
-                        verificationStatus: 'not_submitted',
                         profileComplete: false
                     };
                     
                     updateRunnerUI();
-                    
-                    // Load verification status
-                    updateVerificationStatus();
-                    
-                    // Show profile prompt
                     checkProfileCompletion();
-                    
-                    // Set up real-time listeners
                     setupRealTimeListeners();
                     
                     showToast('Welcome to ERRANDS Runner! Please complete your profile.', 'success');
@@ -2315,15 +2040,20 @@
                     if (document.getElementById('dashboardPage').classList.contains('active')) {
                         loadRecentTasks();
                     }
+                    
+                    // Update available tasks if on that page
+                    if (document.getElementById('availableTasksPage').classList.contains('active')) {
+                        loadAvailableTasks();
+                    }
                 }, error => {
                     console.error('Available tasks listener error:', error);
                 });
             unsubscribers.push(availableTasksUnsub);
             
-            // Listen for active jobs
+            // Listen for active jobs (where runner is assigned and status is active or in_progress)
             const activeJobsUnsub = db.collection('errands')
-                .where('status', 'in', ['assigned', 'in_progress', 'pending_client_approval'])
-                .where('runnerId', '==', currentUser.uid)
+                .where('assignedRunnerId', '==', currentUser.uid)
+                .where('status', 'in', ['active', 'in_progress', 'pending_client_approval'])
                 .onSnapshot(snapshot => {
                     document.getElementById('activeJobsCount').textContent = snapshot.size;
                     
@@ -2340,44 +2070,11 @@
                 });
             unsubscribers.push(activeJobsUnsub);
             
-            // Listen for runner document changes (verification status, wallet, etc.)
-            const runnerUnsub = db.collection('runners').doc(currentUser.uid)
-                .onSnapshot(doc => {
-                    if (doc.exists) {
-                        runnerData = doc.data();
-                        updateRunnerUI();
-                        updateVerificationStatus();
-                        checkProfileCompletion();
-                        
-                        // Update earnings if on earnings page
-                        if (document.getElementById('earningsPage').classList.contains('active')) {
-                            loadEarningsData();
-                        }
-                    }
-                }, error => {
-                    console.error('Runner listener error:', error);
-                });
-            unsubscribers.push(runnerUnsub);
-            
-            // Listen for bids
-            const bidsUnsub = db.collection('bids')
-                .where('runnerId', '==', currentUser.uid)
-                .orderBy('createdAt', 'desc')
-                .onSnapshot(snapshot => {
-                    if (document.getElementById('myBidsPage').classList.contains('active')) {
-                        loadMyBids();
-                    }
-                }, error => {
-                    console.error('Bids listener error:', error);
-                });
-            unsubscribers.push(bidsUnsub);
-            
-            // Listen for transactions (earnings)
-            const transactionsUnsub = db.collection('transactions')
-                .where('runnerId', '==', currentUser.uid)
-                .where('type', '==', 'payment')
-                .orderBy('createdAt', 'desc')
-                .onSnapshot(snapshot => {
+            // Listen for completed jobs (for earnings)
+            const completedJobsUnsub = db.collection('errands')
+                .where('assignedRunnerId', '==', currentUser.uid)
+                .where('status', '==', 'completed')
+                .onSnapshot(() => {
                     if (document.getElementById('earningsPage').classList.contains('active')) {
                         loadEarningsData();
                     }
@@ -2387,51 +2084,28 @@
                         loadDashboardData();
                     }
                 }, error => {
-                    console.error('Transactions listener error:', error);
+                    console.error('Completed jobs listener error:', error);
                 });
-            unsubscribers.push(transactionsUnsub);
+            unsubscribers.push(completedJobsUnsub);
+            
+            // Listen for runner document changes
+            const runnerUnsub = db.collection('runners').doc(currentUser.uid)
+                .onSnapshot(doc => {
+                    if (doc.exists) {
+                        runnerData = doc.data();
+                        updateRunnerUI();
+                        checkProfileCompletion();
+                    }
+                }, error => {
+                    console.error('Runner listener error:', error);
+                });
+            unsubscribers.push(runnerUnsub);
         }
 
         function updateRunnerUI() {
             document.getElementById('runnerName').textContent = runnerData.name || 'Runner';
             document.getElementById('runnerEmail').textContent = runnerData.email || currentUser.email;
             document.getElementById('welcomeMessage').textContent = `HELLO ${runnerData.name || 'Runner'}`;
-            
-            // Update verification icon
-            const verificationIcon = document.getElementById('verificationIcon');
-            const verificationBadge = document.getElementById('verificationBadge');
-            
-            if (verificationIcon) {
-                const status = runnerData.verificationStatus || 'not_submitted';
-                verificationIcon.innerHTML = '';
-                
-                if (status === 'verified') {
-                    verificationIcon.innerHTML = '<i class="fas fa-check-circle verified" title="Verified Account"></i>';
-                } else if (status === 'pending') {
-                    verificationIcon.innerHTML = '<i class="fas fa-clock pending" title="Verification Pending"></i>';
-                } else if (status === 'rejected') {
-                    verificationIcon.innerHTML = '<i class="fas fa-times-circle rejected" title="Verification Rejected"></i>';
-                }
-            }
-            
-            if (verificationBadge) {
-                const status = runnerData.verificationStatus || 'not_submitted';
-                verificationBadge.className = `verification-badge ${status}`;
-                
-                let icon = '';
-                if (status === 'verified') {
-                    icon = '<i class="fas fa-check-circle"></i>';
-                } else if (status === 'pending') {
-                    icon = '<i class="fas fa-clock"></i>';
-                } else if (status === 'rejected') {
-                    icon = '<i class="fas fa-times-circle"></i>';
-                } else {
-                    icon = '<i class="fas fa-exclamation-circle"></i>';
-                }
-                
-                verificationBadge.innerHTML = icon;
-                verificationBadge.style.display = 'flex';
-            }
             
             // Update profile form
             document.getElementById('profileName').value = runnerData.name || '';
@@ -2440,9 +2114,6 @@
             document.getElementById('profileId').value = runnerData.idNumber || '';
             document.getElementById('profileTown').value = runnerData.town || '';
             document.getElementById('profileCounty').value = runnerData.county || '';
-            document.getElementById('profileVehicle').value = runnerData.vehicleType || '';
-            document.getElementById('profileSkills').value = runnerData.skills || '';
-            document.getElementById('profileBio').value = runnerData.bio || '';
             
             // Update availability toggle
             const toggle = document.getElementById('availabilityToggle');
@@ -2486,9 +2157,6 @@
                     idNumber: document.getElementById('profileId').value,
                     town: document.getElementById('profileTown').value,
                     county: document.getElementById('profileCounty').value,
-                    vehicleType: document.getElementById('profileVehicle').value,
-                    skills: document.getElementById('profileSkills').value,
-                    bio: document.getElementById('profileBio').value,
                     profileComplete: true,
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
@@ -2512,76 +2180,63 @@
         }
 
         async function changeProfilePhoto() {
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = 'image/*';
-  
-  input.onchange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    
-    showLoading();
-    try {
-      // Sanitize filename (remove spaces and special characters)
-      const safeFileName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
-      
-      const storageRef = storage.ref();
-      // CHANGE THIS LINE: from 'runner_photos/' to 'profile_photos/'
-      const photoRef = storageRef.child(`profile_photos/${currentUser.uid}/${safeFileName}`);
-      await photoRef.put(file);
-      const photoURL = await photoRef.getDownloadURL();
-      
-      // Update runner document
-      await db.collection('runners').doc(currentUser.uid).update({
-        photoURL: photoURL
-      });
-      
-      // Update UI
-      document.getElementById('runnerAvatar').src = photoURL;
-      document.getElementById('profilePhoto').src = photoURL;
-      runnerData.photoURL = photoURL;
-      
-      showToast('Profile photo updated!', 'success');
-    } catch (error) {
-      console.error('Photo upload error:', error);
-      
-      // More specific error message
-      if (error.code === 'storage/unauthorized') {
-        showToast('Storage permission denied. Please check your upload path.', 'error');
-      } else {
-        showToast('Error uploading photo: ' + error.message, 'error');
-      }
-    } finally {
-      hideLoading();
-    }
-  };
-  
-  input.click();
-}
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            
+            input.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                showLoading();
+                try {
+                    const safeFileName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
+                    
+                    const storageRef = storage.ref();
+                    const photoRef = storageRef.child(`profile_photos/${currentUser.uid}/${safeFileName}`);
+                    await photoRef.put(file);
+                    const photoURL = await photoRef.getDownloadURL();
+                    
+                    await db.collection('runners').doc(currentUser.uid).update({
+                        photoURL: photoURL
+                    });
+                    
+                    document.getElementById('runnerAvatar').src = photoURL;
+                    document.getElementById('profilePhoto').src = photoURL;
+                    runnerData.photoURL = photoURL;
+                    
+                    showToast('Profile photo updated!', 'success');
+                } catch (error) {
+                    console.error('Photo upload error:', error);
+                    showToast('Error uploading photo: ' + error.message, 'error');
+                } finally {
+                    hideLoading();
+                }
+            };
+            
+            input.click();
+        }
 
         // Dashboard Functions
         async function loadDashboardData() {
             try {
-                // Load available tasks count (already handled by listener)
-                // Load active jobs count (already handled by listener)
-                
-                // Load today's earnings
+                // Load today's earnings from completed jobs
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
                 
-                const earningsSnapshot = await db.collection('transactions')
-                    .where('runnerId', '==', currentUser.uid)
-                    .where('type', '==', 'payment')
-                    .where('createdAt', '>=', today)
+                const jobsSnapshot = await db.collection('errands')
+                    .where('assignedRunnerId', '==', currentUser.uid)
+                    .where('status', '==', 'completed')
+                    .where('completedAt', '>=', today)
                     .get();
                 
                 let todayEarnings = 0;
-                earningsSnapshot.forEach(doc => {
-                    todayEarnings += doc.data().amount || 0;
+                jobsSnapshot.forEach(doc => {
+                    todayEarnings += doc.data().runnerAmount || 0;
                 });
                 
                 document.getElementById('todayEarnings').textContent = `KSH ${todayEarnings.toFixed(2)}`;
-                document.getElementById('runnerRating').textContent = runnerData.rating?.toFixed(1) || '0.0';
+                document.getElementById('runnerRating').textContent = runnerData.rating?.toFixed(1) || '5.0';
                 
                 // Load recent tasks
                 loadRecentTasks();
@@ -2591,7 +2246,6 @@
                 
             } catch (error) {
                 console.error('Load dashboard error:', error);
-                showToast('Error loading dashboard: ' + error.message, 'error');
             }
         }
 
@@ -2651,8 +2305,12 @@
                 
                 snapshot.forEach(doc => {
                     const task = doc.data();
-                    const taskCard = createTaskCard(task, doc.id, 'available');
-                    tasksList.appendChild(taskCard);
+                    // Check if runner has already bid
+                    const hasBid = task.bids && task.bids.some(bid => bid.runnerId === currentUser.uid);
+                    if (!hasBid) {
+                        const taskCard = createTaskCard(task, doc.id, 'available');
+                        tasksList.appendChild(taskCard);
+                    }
                 });
             } catch (error) {
                 console.error('Load available tasks error:', error);
@@ -2664,45 +2322,21 @@
             const card = document.createElement('div');
             card.className = 'task-card';
             card.dataset.id = id;
-            card.dataset.type = task.errandType?.toLowerCase();
-            card.dataset.budget = task.budget;
-            
-            let statusClass = `status-${task.status}`;
-            let statusText = task.status.toUpperCase();
-            
-            if (task.status === 'pending') {
-                statusText = 'AVAILABLE';
-            } else if (task.status === 'assigned') {
-                statusText = 'ACCEPTED';
-            } else if (task.status === 'in_progress') {
-                statusText = 'IN PROGRESS';
-            } else if (task.status === 'pending_client_approval') {
-                statusText = 'AWAITING CLIENT APPROVAL';
-                statusClass = 'status-pending_client_approval';
-            }
+            card.dataset.type = (task.errandType || '').toLowerCase();
+            card.dataset.budget = task.budget || 0;
             
             const date = task.createdAt ? task.createdAt.toDate().toLocaleDateString() : 'Recent';
-            const time = task.createdAt ? task.createdAt.toDate().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
             
             let actions = '';
             
-            if (context === 'available') {
+            if (context === 'available' || context === 'dashboard') {
                 actions = `
                     <button class="btn btn-primary btn-sm" onclick="openBidModal('${id}')">
                         <i class="fas fa-gavel"></i> Place Bid
                     </button>
-                    <button class="btn btn-outline btn-sm" onclick="viewTaskDetails('${id}')">
-                        <i class="fas fa-eye"></i> Details
-                    </button>
-                `;
-            } else if (context === 'dashboard') {
-                actions = `
-                    <button class="btn btn-primary btn-sm" onclick="openBidModal('${id}')">
-                        <i class="fas fa-gavel"></i> Bid Now
-                    </button>
                 `;
             } else if (context === 'active') {
-                if (task.status === 'assigned') {
+                if (task.status === 'active') {
                     actions = `
                         <button class="btn btn-primary btn-sm" onclick="startJob('${id}')">
                             <i class="fas fa-play"></i> Start Run
@@ -2725,22 +2359,30 @@
                         <button class="btn btn-outline btn-sm" onclick="viewJobDetails('${id}')">
                             <i class="fas fa-info-circle"></i> Details
                         </button>
+                        <span class="task-status status-pending">Awaiting Approval</span>
                     `;
                 }
             }
             
+            let statusClass = `status-${task.status}`;
+            let statusText = task.status === 'pending' ? 'AVAILABLE' : 
+                            task.status === 'active' ? 'ACCEPTED' :
+                            task.status === 'in_progress' ? 'IN PROGRESS' :
+                            task.status === 'pending_client_approval' ? 'AWAITING APPROVAL' :
+                            task.status.toUpperCase();
+            
             card.innerHTML = `
                 <div class="task-header">
-                    <span class="task-type">${task.errandType}</span>
-                    <span class="task-budget">KSH ${task.budget?.toFixed(2)}</span>
+                    <span class="task-type">${task.errandType || 'Errand'}</span>
+                    <span class="task-budget">KSH ${(task.budget || 0).toFixed(2)}</span>
                 </div>
                 <div class="task-body">
-                    <h3 class="task-title">${task.description.substring(0, 60)}${task.description.length > 60 ? '...' : ''}</h3>
-                    <p class="task-desc">${task.description}</p>
+                    <h3 class="task-title">${(task.description || '').substring(0, 60)}${task.description && task.description.length > 60 ? '...' : ''}</h3>
+                    <p class="task-desc">${task.description || ''}</p>
                     <div class="task-details">
                         <div class="task-detail">
                             <i class="fas fa-map-marker-alt"></i>
-                            <span>${task.town}, ${task.area}</span>
+                            <span>${task.town || ''}, ${task.area || ''}</span>
                         </div>
                         ${task.travelRequired ? `
                         <div class="task-detail">
@@ -2756,7 +2398,7 @@
                         ` : ''}
                         <div class="task-detail">
                             <i class="fas fa-calendar"></i>
-                            <span>${date} ${time}</span>
+                            <span>${date}</span>
                         </div>
                     </div>
                 </div>
@@ -2772,20 +2414,15 @@
         }
 
         function filterTasks(filter) {
-            const cards = document.querySelectorAll('.task-card');
+            const cards = document.querySelectorAll('#availableTasksList .task-card');
             cards.forEach(card => {
                 let show = false;
                 
-                // Safely get dataset values with defaults
                 const taskType = card.dataset.type || '';
                 const taskBudget = parseFloat(card.dataset.budget) || 0;
                 
                 switch(filter) {
                     case 'all':
-                        show = true;
-                        break;
-                    case 'nearby':
-                        // Simple check - in real app, use location data
                         show = true;
                         break;
                     case 'delivery':
@@ -2818,7 +2455,7 @@
                 const task = taskDoc.data();
                 
                 document.getElementById('bidTaskDescription').textContent = task.description;
-                document.getElementById('taskBudget').textContent = task.budget?.toFixed(2) || '0';
+                document.getElementById('taskBudget').textContent = (task.budget || 0).toFixed(2);
                 
                 // Set default bid amount (80% of budget)
                 const defaultBid = task.budget * 0.8;
@@ -2852,7 +2489,7 @@
                 const task = taskDoc.data();
                 
                 // Check if runner has already bid on this task
-                const existingBid = task.bids?.find(bid => bid.runnerId === currentUser.uid);
+                const existingBid = task.bids && task.bids.find(bid => bid.runnerId === currentUser.uid);
                 if (existingBid) {
                     showToast('You have already placed a bid on this task', 'error');
                     hideLoading();
@@ -2860,10 +2497,12 @@
                     return;
                 }
                 
-                // Create bid object
+                // Create bid object matching client's expected structure
                 const bid = {
                     runnerId: currentUser.uid,
-                    runnerName: runnerData.name,
+                    runnerName: runnerData.name || currentUser.email.split('@')[0],
+                    runnerPhoto: runnerData.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(runnerData.name || 'Runner')}&background=ff7f00&color=fff`,
+                    runnerRating: runnerData.rating || 5.0,
                     amount: bidAmount,
                     completionTime: parseInt(bidTime),
                     message: bidMessage,
@@ -2874,19 +2513,6 @@
                 // Add bid to task using arrayUnion
                 await db.collection('errands').doc(selectedTaskId).update({
                     bids: firebase.firestore.FieldValue.arrayUnion(bid)
-                });
-                
-                // Record bid in runner's bids collection
-                await db.collection('bids').add({
-                    taskId: selectedTaskId,
-                    runnerId: currentUser.uid,
-                    amount: bidAmount,
-                    completionTime: parseInt(bidTime),
-                    message: bidMessage,
-                    status: 'pending',
-                    taskDescription: task.description,
-                    taskBudget: task.budget,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 
                 showToast('Bid submitted successfully!', 'success');
@@ -2901,9 +2527,12 @@
         }
 
         async function loadMyBids() {
+            if (!currentUser) return;
+            
+            showLoading();
             try {
-                const snapshot = await db.collection('bids')
-                    .where('runnerId', '==', currentUser.uid)
+                const snapshot = await db.collection('errands')
+                    .where('bids', 'array-contains', { runnerId: currentUser.uid })
                     .orderBy('createdAt', 'desc')
                     .get();
                 
@@ -2921,45 +2550,45 @@
                             </button>
                         </div>
                     `;
+                    hideLoading();
                     return;
                 }
                 
                 snapshot.forEach(doc => {
-                    const bid = doc.data();
-                    const bidCard = createBidCard(bid, doc.id);
-                    bidsList.appendChild(bidCard);
+                    const errand = doc.data();
+                    const runnerBid = errand.bids.find(bid => bid.runnerId === currentUser.uid);
+                    if (runnerBid) {
+                        const bidCard = createBidCard(errand, runnerBid, doc.id);
+                        bidsList.appendChild(bidCard);
+                    }
                 });
             } catch (error) {
                 console.error('Load bids error:', error);
                 showToast('Error loading bids: ' + error.message, 'error');
+            } finally {
+                hideLoading();
             }
         }
 
-        function createBidCard(bid, id) {
+        function createBidCard(errand, bid, errandId) {
             const card = document.createElement('div');
             card.className = 'task-card';
-            card.dataset.id = id;
+            card.dataset.id = errandId;
             card.dataset.status = bid.status;
             
             const statusClass = `status-${bid.status}`;
-            const date = bid.createdAt ? bid.createdAt.toDate().toLocaleDateString() : 'Recent';
+            const date = bid.createdAt ? new Date(bid.createdAt).toLocaleDateString() : 'Recent';
             
-            let statusText = bid.status.charAt(0).toUpperCase() + bid.status.slice(1);
-            if (bid.status === 'pending') statusText = 'WAITING FOR CLIENT';
-            if (bid.status === 'accepted') statusText = 'BID ACCEPTED - READY TO START';
-            if (bid.status === 'rejected') statusText = 'BID REJECTED';
+            let statusText = bid.status === 'pending' ? 'WAITING FOR CLIENT' :
+                            bid.status === 'accepted' ? 'BID ACCEPTED' :
+                            bid.status === 'rejected' ? 'BID REJECTED' : 
+                            bid.status.toUpperCase();
             
             let actions = '';
-            if (bid.status === 'accepted') {
+            if (bid.status === 'accepted' && errand.status === 'pending') {
                 actions = `
-                    <button class="btn btn-success btn-sm" onclick="startJobFromBid('${bid.taskId}')">
+                    <button class="btn btn-success btn-sm" onclick="startJob('${errandId}')">
                         <i class="fas fa-play"></i> Start Run
-                    </button>
-                `;
-            } else if (bid.status === 'pending') {
-                actions = `
-                    <button class="btn btn-outline btn-sm" onclick="withdrawBid('${id}')">
-                        <i class="fas fa-times"></i> Withdraw
                     </button>
                 `;
             }
@@ -2967,19 +2596,19 @@
             card.innerHTML = `
                 <div class="task-header">
                     <span class="task-type">BID</span>
-                    <span class="task-budget">KSH ${bid.amount?.toFixed(2)}</span>
+                    <span class="task-budget">KSH ${(bid.amount || 0).toFixed(2)}</span>
                 </div>
                 <div class="task-body">
-                    <h3 class="task-title">${bid.taskDescription.substring(0, 60)}${bid.taskDescription.length > 60 ? '...' : ''}</h3>
-                    <p class="task-desc">${bid.taskDescription}</p>
+                    <h3 class="task-title">${(errand.description || '').substring(0, 60)}${errand.description && errand.description.length > 60 ? '...' : ''}</h3>
+                    <p class="task-desc">${errand.description || ''}</p>
                     <div class="task-details">
                         <div class="task-detail">
                             <i class="fas fa-money-bill-wave"></i>
-                            <span>Task Budget: KSH ${bid.taskBudget?.toFixed(2)}</span>
+                            <span>Task Budget: KSH ${(errand.budget || 0).toFixed(2)}</span>
                         </div>
                         <div class="task-detail">
                             <i class="fas fa-clock"></i>
-                            <span>Completion Time: ${bid.completionTime} hours</span>
+                            <span>Completion Time: ${bid.completionTime || 2} hours</span>
                         </div>
                         ${bid.message ? `
                         <div class="task-detail">
@@ -3005,7 +2634,7 @@
         }
 
         function filterBids(filter) {
-            const cards = document.querySelectorAll('.task-card');
+            const cards = document.querySelectorAll('#myBidsList .task-card');
             cards.forEach(card => {
                 if (filter === 'all' || (card.dataset.status && card.dataset.status === filter)) {
                     card.style.display = 'block';
@@ -3015,46 +2644,15 @@
             });
         }
 
-        async function withdrawBid(bidId) {
-            if (!confirm('Are you sure you want to withdraw this bid?')) return;
+        // Job Functions
+        async function loadActiveJobs() {
+            if (!currentUser) return;
             
             showLoading();
             try {
-                const bidDoc = await db.collection('bids').doc(bidId).get();
-                const bid = bidDoc.data();
-                
-                // Remove bid from task
-                const taskDoc = await db.collection('errands').doc(bid.taskId).get();
-                const task = taskDoc.data();
-                
-                if (task.bids) {
-                    const updatedBids = task.bids.filter(b => b.runnerId !== currentUser.uid);
-                    await db.collection('errands').doc(bid.taskId).update({
-                        bids: updatedBids
-                    });
-                }
-                
-                // Update bid status
-                await db.collection('bids').doc(bidId).update({
-                    status: 'withdrawn'
-                });
-                
-                showToast('Bid withdrawn successfully', 'success');
-                
-            } catch (error) {
-                console.error('Withdraw bid error:', error);
-                showToast('Error withdrawing bid: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        // Job Functions
-        async function loadActiveJobs() {
-            try {
                 const snapshot = await db.collection('errands')
-                    .where('status', 'in', ['assigned', 'in_progress', 'pending_client_approval'])
-                    .where('runnerId', '==', currentUser.uid)
+                    .where('assignedRunnerId', '==', currentUser.uid)
+                    .where('status', 'in', ['active', 'in_progress', 'pending_client_approval'])
                     .orderBy('createdAt', 'desc')
                     .get();
                 
@@ -3072,6 +2670,7 @@
                             </button>
                         </div>
                     `;
+                    hideLoading();
                     return;
                 }
                 
@@ -3080,10 +2679,11 @@
                     const jobCard = createTaskCard(job, doc.id, 'active');
                     jobsList.appendChild(jobCard);
                 });
-                
             } catch (error) {
                 console.error('Load active jobs error:', error);
                 showToast('Error loading jobs: ' + error.message, 'error');
+            } finally {
+                hideLoading();
             }
         }
 
@@ -3095,24 +2695,29 @@
                 const jobDoc = await db.collection('errands').doc(jobId).get();
                 const job = jobDoc.data();
                 
+                const date = job.createdAt ? job.createdAt.toDate().toLocaleString() : 'N/A';
+                const deadline = job.deadline ? new Date(job.deadline).toLocaleString() : 'Not set';
+                
                 let details = `
-                    <h3 style="margin-bottom: 15px;">${job.errandType}</h3>
-                    <p style="margin-bottom: 20px; color: #666;">${job.description}</p>
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="margin-bottom: 10px;">${job.errandType || 'Errand'}</h3>
+                        <p style="color: #666;">${job.description || ''}</p>
+                    </div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
                         <div>
                             <strong>Budget:</strong>
-                            <div>KSH ${job.budget?.toFixed(2)}</div>
+                            <div>KSH ${(job.budget || 0).toFixed(2)}</div>
                         </div>
                         <div>
                             <strong>Your Earnings:</strong>
-                            <div style="color: var(--dark-green); font-weight: 600;">KSH ${job.runnerAmount?.toFixed(2)}</div>
+                            <div style="color: var(--dark-green); font-weight: 600;">KSH ${(job.runnerAmount || 0).toFixed(2)}</div>
                         </div>
                     </div>
                     
                     <div style="margin-bottom: 20px;">
                         <strong>Location:</strong>
-                        <div>${job.town}, ${job.area}</div>
+                        <div>${job.town || ''}, ${job.area || ''}</div>
                     </div>
                 `;
                 
@@ -3120,8 +2725,8 @@
                     details += `
                         <div style="margin-bottom: 20px;">
                             <strong>Travel Details:</strong>
-                            <div>From: ${job.travelFrom}</div>
-                            <div>To: ${job.travelTo}</div>
+                            <div>From: ${job.travelFrom || ''}</div>
+                            <div>To: ${job.travelTo || ''}</div>
                         </div>
                     `;
                 }
@@ -3144,8 +2749,7 @@
                     `;
                 }
                 
-                // Add status and timestamps
-                const statusText = job.status === 'assigned' ? 'Accepted - Ready to Start' :
+                const statusText = job.status === 'active' ? 'Accepted - Ready to Start' :
                                   job.status === 'in_progress' ? 'In Progress' :
                                   job.status === 'pending_client_approval' ? 'Awaiting Client Approval' :
                                   job.status;
@@ -3154,6 +2758,14 @@
                     <div style="margin-bottom: 20px;">
                         <strong>Status:</strong>
                         <div>${statusText}</div>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <strong>Posted:</strong>
+                        <div>${date}</div>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <strong>Deadline:</strong>
+                        <div>${deadline}</div>
                     </div>
                 `;
                 
@@ -3176,7 +2788,7 @@
                 startBtn.style.display = 'none';
                 finishBtn.style.display = 'none';
                 
-                if (job.status === 'assigned') {
+                if (job.status === 'active') {
                     startBtn.style.display = 'inline-flex';
                     startBtn.onclick = () => startJob(jobId);
                 } else if (job.status === 'in_progress') {
@@ -3188,13 +2800,6 @@
                 console.error('Error loading job details:', error);
                 showToast('Error loading job details', 'error');
             }
-        }
-
-        async function startJobFromBid(taskId) {
-            showPage('activeJobs');
-            setTimeout(() => {
-                startJob(taskId);
-            }, 500);
         }
 
         async function startJob(jobId) {
@@ -3241,6 +2846,9 @@
                 closeModal('completeJobModal');
                 closeModal('jobDetailsModal');
                 
+                // Refresh active jobs
+                loadActiveJobs();
+                
             } catch (error) {
                 console.error('Request completion error:', error);
                 showToast('Error requesting completion: ' + error.message, 'error');
@@ -3259,15 +2867,23 @@
                         if (job.status === 'completed' && job.completedAt) {
                             showToast('Client approved completion! Payment has been released.', 'success');
                             
+                            // Update runner stats and wallet
+                            updateRunnerAfterCompletion(job.runnerAmount);
+                            
                             // Update earnings
-                            loadEarningsData();
+                            if (document.getElementById('earningsPage').classList.contains('active')) {
+                                loadEarningsData();
+                            }
                             
                             // Refresh active jobs
                             if (document.getElementById('activeJobsPage').classList.contains('active')) {
                                 loadActiveJobs();
                             }
-                        } else if (job.status === 'cancelled' && job.completionRejectedAt) {
-                            showToast('Client rejected completion. Please contact support if needed.', 'error');
+                            
+                            // Refresh dashboard
+                            if (document.getElementById('dashboardPage').classList.contains('active')) {
+                                loadDashboardData();
+                            }
                         }
                     }
                 });
@@ -3275,13 +2891,24 @@
             unsubscribers.push(unsub);
         }
 
+        async function updateRunnerAfterCompletion(amount) {
+            try {
+                await db.collection('runners').doc(currentUser.uid).update({
+                    walletBalance: firebase.firestore.FieldValue.increment(amount || 0),
+                    totalJobs: firebase.firestore.FieldValue.increment(1),
+                    totalEarnings: firebase.firestore.FieldValue.increment(amount || 0)
+                });
+            } catch (error) {
+                console.error('Error updating runner stats:', error);
+            }
+        }
+
         // Earnings Functions
         async function loadEarningsData() {
             try {
-                // Calculate total earnings from transactions
-                const snapshot = await db.collection('transactions')
-                    .where('runnerId', '==', currentUser.uid)
-                    .where('type', '==', 'payment')
+                const snapshot = await db.collection('errands')
+                    .where('assignedRunnerId', '==', currentUser.uid)
+                    .where('status', '==', 'completed')
                     .get();
                 
                 let totalEarnings = 0;
@@ -3293,17 +2920,17 @@
                 const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
                 
                 snapshot.forEach(doc => {
-                    const transaction = doc.data();
-                    const amount = transaction.amount || 0;
-                    const createdAt = transaction.createdAt?.toDate();
+                    const job = doc.data();
+                    const amount = job.runnerAmount || 0;
+                    const completedAt = job.completedAt ? job.completedAt.toDate() : null;
                     
                     totalEarnings += amount;
                     
-                    if (createdAt && createdAt >= weekStart) {
+                    if (completedAt && completedAt >= weekStart) {
                         weeklyEarnings += amount;
                     }
                     
-                    if (createdAt && createdAt >= monthStart) {
+                    if (completedAt && completedAt >= monthStart) {
                         monthlyEarnings += amount;
                     }
                 });
@@ -3326,32 +2953,19 @@
 
         function updateEarningsProgress() {
             const weeklyGoal = 10000;
-            const currentEarnings = parseFloat(document.getElementById('weeklyTotal').textContent) || 0;
-            const progress = Math.min((currentEarnings / weeklyGoal) * 100, 100);
+            const weeklyTotal = parseFloat(document.getElementById('weeklyTotal').textContent) || 0;
+            const progress = Math.min((weeklyTotal / weeklyGoal) * 100, 100);
             
             document.getElementById('earningsProgress').style.width = `${progress}%`;
-            
-            const progressText = document.querySelector('#earningsProgress').parentElement.nextElementSibling.firstElementChild;
-            if (progressText) {
-                progressText.textContent = `${progress.toFixed(1)}%`;
-            }
         }
 
         function showWithdrawalFields() {
             const method = document.getElementById('withdrawalMethod').value;
             
-            document.getElementById('mpesaLabel').style.display = 'none';
-            document.getElementById('mpesaNumber').style.display = 'none';
-            document.getElementById('bankLabel').style.display = 'none';
-            document.getElementById('bankDetails').style.display = 'none';
-            
-            if (method === 'mpesa') {
-                document.getElementById('mpesaLabel').style.display = 'block';
-                document.getElementById('mpesaNumber').style.display = 'block';
-            } else if (method === 'bank') {
-                document.getElementById('bankLabel').style.display = 'block';
-                document.getElementById('bankDetails').style.display = 'block';
-            }
+            document.getElementById('mpesaLabel').style.display = method === 'mpesa' ? 'block' : 'none';
+            document.getElementById('mpesaNumber').style.display = method === 'mpesa' ? 'block' : 'none';
+            document.getElementById('bankLabel').style.display = method === 'bank' ? 'block' : 'none';
+            document.getElementById('bankDetails').style.display = method === 'bank' ? 'block' : 'none';
         }
 
         async function processWithdrawal() {
@@ -3385,6 +2999,7 @@
                 // Record withdrawal request
                 await db.collection('withdrawals').add({
                     runnerId: currentUser.uid,
+                    runnerName: runnerData.name,
                     amount: amount,
                     method: method,
                     mpesaNumber: mpesaNumber,
@@ -3410,23 +3025,6 @@
         }
 
         // Utility Functions
-        function getCurrentLocation() {
-            if (!navigator.geolocation) return;
-            
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    currentLocation = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    console.log('Location obtained:', currentLocation);
-                },
-                (error) => {
-                    console.error('Geolocation error:', error);
-                }
-            );
-        }
-
         async function toggleAvailability() {
             const isAvailable = document.getElementById('availabilityToggle').checked;
             
@@ -3470,6 +3068,19 @@
                         link.classList.remove('active');
                     }
                 });
+                
+                // Load data for specific pages
+                if (pageId === 'availableTasks') {
+                    loadAvailableTasks();
+                } else if (pageId === 'myBids') {
+                    loadMyBids();
+                } else if (pageId === 'activeJobs') {
+                    loadActiveJobs();
+                } else if (pageId === 'earnings') {
+                    loadEarningsData();
+                } else if (pageId === 'dashboard') {
+                    loadDashboardData();
+                }
             }
         }
 
@@ -3539,328 +3150,15 @@
             showToast('Dashboard refreshed!', 'success');
         }
 
-        // Helper functions
-        function viewTaskDetails(taskId) {
-            showToast('Task details will be shown here', 'info');
-        }
-
-        // Verification Functions
-        let verificationFiles = {
-            idFront: null,
-            idBack: null,
-            selfie: null
-        };
-
-        // Initialize verification listeners
-        function initVerification() {
-            const verifyBtn = document.getElementById('verifyAccountBtn');
-            const idFrontUpload = document.getElementById('idFrontUpload');
-            const idBackUpload = document.getElementById('idBackUpload');
-            const selfieUpload = document.getElementById('selfieUpload');
-            const idFrontFile = document.getElementById('idFrontFile');
-            const idBackFile = document.getElementById('idBackFile');
-            const selfieFile = document.getElementById('selfieFile');
-            const submitVerificationBtn = document.getElementById('submitVerificationBtn');
-            
-            if (verifyBtn) {
-                verifyBtn.addEventListener('click', () => {
-                    showModal('verificationModal');
-                });
-            }
-            
-            // Handle ID Front upload click
-            if (idFrontUpload) {
-                idFrontUpload.addEventListener('click', () => {
-                    idFrontFile.click();
-                });
-                
-                idFrontUpload.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    idFrontUpload.style.borderColor = 'var(--orange)';
-                    idFrontUpload.style.backgroundColor = '#fff3e0';
-                });
-                
-                idFrontUpload.addEventListener('dragleave', () => {
-                    idFrontUpload.style.borderColor = 'var(--medium-gray)';
-                    idFrontUpload.style.backgroundColor = '#f9f9f9';
-                });
-                
-                idFrontUpload.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    idFrontUpload.style.borderColor = 'var(--medium-gray)';
-                    idFrontUpload.style.backgroundColor = '#f9f9f9';
-                    
-                    if (e.dataTransfer.files.length > 0) {
-                        handleFileSelect(e.dataTransfer.files[0], 'idFront');
-                    }
-                });
-            }
-            
-            // Handle ID Back upload click
-            if (idBackUpload) {
-                idBackUpload.addEventListener('click', () => {
-                    idBackFile.click();
-                });
-                
-                idBackUpload.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    idBackUpload.style.borderColor = 'var(--orange)';
-                    idBackUpload.style.backgroundColor = '#fff3e0';
-                });
-                
-                idBackUpload.addEventListener('dragleave', () => {
-                    idBackUpload.style.borderColor = 'var(--medium-gray)';
-                    idBackUpload.style.backgroundColor = '#f9f9f9';
-                });
-                
-                idBackUpload.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    idBackUpload.style.borderColor = 'var(--medium-gray)';
-                    idBackUpload.style.backgroundColor = '#f9f9f9';
-                    
-                    if (e.dataTransfer.files.length > 0) {
-                        handleFileSelect(e.dataTransfer.files[0], 'idBack');
-                    }
-                });
-            }
-            
-            // Handle Selfie upload click
-            if (selfieUpload) {
-                selfieUpload.addEventListener('click', () => {
-                    selfieFile.click();
-                });
-                
-                selfieUpload.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    selfieUpload.style.borderColor = 'var(--orange)';
-                    selfieUpload.style.backgroundColor = '#fff3e0';
-                });
-                
-                selfieUpload.addEventListener('dragleave', () => {
-                    selfieUpload.style.borderColor = 'var(--medium-gray)';
-                    selfieUpload.style.backgroundColor = '#f9f9f9';
-                });
-                
-                selfieUpload.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    selfieUpload.style.borderColor = 'var(--medium-gray)';
-                    selfieUpload.style.backgroundColor = '#f9f9f9';
-                    
-                    if (e.dataTransfer.files.length > 0) {
-                        handleFileSelect(e.dataTransfer.files[0], 'selfie');
-                    }
-                });
-            }
-            
-            // Handle file input changes
-            if (idFrontFile) {
-                idFrontFile.addEventListener('change', (e) => {
-                    if (e.target.files.length > 0) {
-                        handleFileSelect(e.target.files[0], 'idFront');
-                    }
-                });
-            }
-            
-            if (idBackFile) {
-                idBackFile.addEventListener('change', (e) => {
-                    if (e.target.files.length > 0) {
-                        handleFileSelect(e.target.files[0], 'idBack');
-                    }
-                });
-            }
-            
-            if (selfieFile) {
-                selfieFile.addEventListener('change', (e) => {
-                    if (e.target.files.length > 0) {
-                        handleFileSelect(e.target.files[0], 'selfie');
-                    }
-                });
-            }
-            
-            if (submitVerificationBtn) {
-                submitVerificationBtn.addEventListener('click', submitVerification);
-            }
-        }
-
-        function handleFileSelect(file, type) {
-            // Validate file size (max 5MB)
-            if (file.size > 5 * 1024 * 1024) {
-                showToast('File size must be less than 5MB', 'error');
-                return;
-            }
-            
-            // Validate file type
-            const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
-            if (type !== 'selfie' && !validTypes.includes(file.type)) {
-                showToast('Please upload JPG, PNG, or PDF files only', 'error');
-                return;
-            }
-            
-            if (type === 'selfie' && !file.type.startsWith('image/')) {
-                showToast('Please upload an image file for selfie', 'error');
-                return;
-            }
-            
-            // Store file
-            verificationFiles[type] = file;
-            
-            // Update UI
-            const fileNameElement = document.getElementById(`${type}FileName`);
-            if (fileNameElement) {
-                fileNameElement.textContent = `Selected: ${file.name}`;
-                fileNameElement.style.display = 'block';
-            }
-            
-            // Update upload area style
-            const uploadArea = document.getElementById(`${type}Upload`);
-            if (uploadArea) {
-                uploadArea.style.borderColor = 'var(--lime-green)';
-                uploadArea.style.backgroundColor = '#f0fff0';
-            }
-            
-            showToast(`${type === 'idFront' ? 'ID Front' : type === 'idBack' ? 'ID Back' : 'Selfie'} uploaded successfully`, 'success');
-        }
-
-        async function submitVerification() {
-            // Check if all files are uploaded
-            if (!verificationFiles.idFront || !verificationFiles.idBack || !verificationFiles.selfie) {
-                showToast('Please upload all required documents', 'error');
-                return;
-            }
-            
-            showLoading();
-            
-            try {
-                // Create a verification record
-                const verificationData = {
-                    runnerId: currentUser.uid,
-                    runnerName: runnerData.name,
-                    runnerEmail: currentUser.email,
-                    status: 'pending',
-                    submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    documents: {}
-                };
-                
-                // Upload files to Firebase Storage
-                const storageRef = storage.ref();
-                
-                // Upload ID Front
-                const idFrontRef = storageRef.child(`verifications/${currentUser.uid}/id_front_${Date.now()}`);
-                await idFrontRef.put(verificationFiles.idFront);
-                verificationData.documents.idFront = await idFrontRef.getDownloadURL();
-                
-                // Upload ID Back
-                const idBackRef = storageRef.child(`verifications/${currentUser.uid}/id_back_${Date.now()}`);
-                await idBackRef.put(verificationFiles.idBack);
-                verificationData.documents.idBack = await idBackRef.getDownloadURL();
-                
-                // Upload Selfie
-                const selfieRef = storageRef.child(`verifications/${currentUser.uid}/selfie_${Date.now()}`);
-                await selfieRef.put(verificationFiles.selfie);
-                verificationData.documents.selfie = await selfieRef.getDownloadURL();
-                
-                // Save verification request to Firestore
-                await db.collection('verifications').add(verificationData);
-                
-                // Update runner profile with verification status
-                await db.collection('runners').doc(currentUser.uid).update({
-                    verificationStatus: 'pending',
-                    verificationSubmittedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                
-                showToast('Verification documents submitted successfully! We will review within 24-48 hours.', 'success');
-                closeModal('verificationModal');
-                
-                // Clear files
-                verificationFiles = {
-                    idFront: null,
-                    idBack: null,
-                    selfie: null
-                };
-                
-                // Reset UI
-                document.querySelectorAll('[id$="FileName"]').forEach(el => {
-                    el.style.display = 'none';
-                    el.textContent = '';
-                });
-                
-                document.querySelectorAll('[id$="Upload"]').forEach(el => {
-                    el.style.borderColor = 'var(--medium-gray)';
-                    el.style.backgroundColor = '#f9f9f9';
-                });
-                
-            } catch (error) {
-                console.error('Verification submission error:', error);
-                showToast('Error submitting verification: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        function updateVerificationStatus() {
-            if (!verificationSection) return;
-            
-            const status = runnerData.verificationStatus || 'not_submitted';
-            
-            // Show verification section only for unverified users
-            if (status === 'verified') {
-                verificationSection.style.display = 'none';
-            } else {
-                verificationSection.style.display = 'block';
-            }
-            
-            const statusDiv = document.getElementById('verificationStatus');
-            if (!statusDiv) return;
-            
-            const icon = statusDiv.querySelector('i');
-            const title = statusDiv.querySelector('h3');
-            const description = statusDiv.querySelector('p');
-            
-            switch(status) {
-                case 'pending':
-                    statusDiv.style.backgroundColor = '#fff3cd';
-                    statusDiv.style.borderLeftColor = '#ffc107';
-                    icon.className = 'fas fa-clock';
-                    icon.style.color = '#856404';
-                    title.textContent = 'Verification Pending';
-                    title.style.color = '#856404';
-                    description.textContent = 'Your documents are being reviewed. This usually takes 24-48 hours.';
-                    description.style.color = '#856404';
-                    break;
-                    
-                case 'verified':
-                    statusDiv.style.backgroundColor = '#d4edda';
-                    statusDiv.style.borderLeftColor = '#28a745';
-                    icon.className = 'fas fa-check-circle';
-                    icon.style.color = '#155724';
-                    title.textContent = 'Account Verified';
-                    title.style.color = '#155724';
-                    description.textContent = 'Your account is verified. You now have access to higher earnings and more tasks.';
-                    description.style.color = '#155724';
-                    break;
-                    
-                case 'rejected':
-                    statusDiv.style.backgroundColor = '#f8d7da';
-                    statusDiv.style.borderLeftColor = '#dc3545';
-                    icon.className = 'fas fa-times-circle';
-                    icon.style.color = '#721c24';
-                    title.textContent = 'Verification Rejected';
-                    title.style.color = '#721c24';
-                    description.textContent = 'Your documents were rejected. Please submit again with clear images.';
-                    description.style.color = '#721c24';
-                    break;
-                    
-                default:
-                    statusDiv.style.backgroundColor = '#fff3cd';
-                    statusDiv.style.borderLeftColor = '#ffc107';
-                    icon.className = 'fas fa-exclamation-triangle';
-                    icon.style.color = '#856404';
-                    title.textContent = 'Verification Required';
-                    title.style.color = '#856404';
-                    description.textContent = 'Verify your account to unlock higher earnings and more tasks';
-                    description.style.color = '#856404';
-            }
-        }
+        // Make functions globally available
+        window.showPage = showPage;
+        window.closeModal = closeModal;
+        window.openBidModal = openBidModal;
+        window.startJob = startJob;
+        window.openCompleteModal = openCompleteModal;
+        window.viewJobDetails = viewJobDetails;
+        window.filterTasks = filterTasks;
+        window.filterBids = filterBids;
     </script>
 </body>
 </html>
