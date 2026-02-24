@@ -1478,45 +1478,47 @@
             </div>
         </div>
     </div>
-<!-- Account Verification Section -->
-<div class="form-container" style="margin-top: 30px;">
-    <h2 style="margin-bottom: 20px; font-family: 'Poppins', sans-serif; display: flex; align-items: center; gap: 10px;">
-        <i class="fas fa-shield-alt" style="color: var(--orange);"></i>
-        Account Verification
-    </h2>
     
-    <div id="verificationStatus" class="verification-status" style="background-color: #fff3cd; border-left: 5px solid #ffc107; padding: 20px; border-radius: var(--radius); margin-bottom: 20px; display: flex; align-items: center; gap: 15px;">
-        <i class="fas fa-exclamation-triangle" style="font-size: 24px; color: #856404;"></i>
-        <div>
-            <h3 style="margin-bottom: 5px; color: #856404;">Verification Pending</h3>
-            <p style="color: #856404; margin: 0;">Verify your account to unlock higher earnings and more tasks</p>
+    <!-- Account Verification Section -->
+    <div class="form-container" style="margin-top: 30px;">
+        <h2 style="margin-bottom: 20px; font-family: 'Poppins', sans-serif; display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-shield-alt" style="color: var(--orange);"></i>
+            Account Verification
+        </h2>
+        
+        <div id="verificationStatus" class="verification-status" style="background-color: #fff3cd; border-left: 5px solid #ffc107; padding: 20px; border-radius: var(--radius); margin-bottom: 20px; display: flex; align-items: center; gap: 15px;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 24px; color: #856404;"></i>
+            <div>
+                <h3 style="margin-bottom: 5px; color: #856404;">Verification Pending</h3>
+                <p style="color: #856404; margin: 0;">Verify your account to unlock higher earnings and more tasks</p>
+            </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <div style="background-color: var(--light-gray); padding: 20px; border-radius: var(--radius); text-align: center;">
+                <i class="fas fa-id-card" style="font-size: 32px; color: var(--orange); margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">ID Verification</h3>
+                <p style="color: #666; font-size: 14px;">Upload front and back of your National ID</p>
+            </div>
+            <div style="background-color: var(--light-gray); padding: 20px; border-radius: var(--radius); text-align: center;">
+                <i class="fas fa-camera" style="font-size: 32px; color: var(--orange); margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Selfie Verification</h3>
+                <p style="color: #666; font-size: 14px;">Take a clear selfie holding your ID</p>
+            </div>
+            <div style="background-color: var(--light-gray); padding: 20px; border-radius: var(--radius); text-align: center;">
+                <i class="fas fa-check-circle" style="font-size: 32px; color: var(--orange); margin-bottom: 15px;"></i>
+                <h3 style="margin-bottom: 10px;">Benefits</h3>
+                <p style="color: #666; font-size: 14px;">Higher earnings, more tasks, priority support</p>
+            </div>
+        </div>
+        
+        <div style="text-align: center;">
+            <button id="verifyAccountBtn" class="btn btn-primary" style="padding: 15px 40px;">
+                <i class="fas fa-shield-alt"></i> Start Verification Process
+            </button>
         </div>
     </div>
     
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
-        <div style="background-color: var(--light-gray); padding: 20px; border-radius: var(--radius); text-align: center;">
-            <i class="fas fa-id-card" style="font-size: 32px; color: var(--orange); margin-bottom: 15px;"></i>
-            <h3 style="margin-bottom: 10px;">ID Verification</h3>
-            <p style="color: #666; font-size: 14px;">Upload front and back of your National ID</p>
-        </div>
-        <div style="background-color: var(--light-gray); padding: 20px; border-radius: var(--radius); text-align: center;">
-            <i class="fas fa-camera" style="font-size: 32px; color: var(--orange); margin-bottom: 15px;"></i>
-            <h3 style="margin-bottom: 10px;">Selfie Verification</h3>
-            <p style="color: #666; font-size: 14px;">Take a clear selfie holding your ID</p>
-        </div>
-        <div style="background-color: var(--light-gray); padding: 20px; border-radius: var(--radius); text-align: center;">
-            <i class="fas fa-check-circle" style="font-size: 32px; color: var(--orange); margin-bottom: 15px;"></i>
-            <h3 style="margin-bottom: 10px;">Benefits</h3>
-            <p style="color: #666; font-size: 14px;">Higher earnings, more tasks, priority support</p>
-        </div>
-    </div>
-    
-    <div style="text-align: center;">
-        <button id="verifyAccountBtn" class="btn btn-primary" style="padding: 15px 40px;">
-            <i class="fas fa-shield-alt"></i> Start Verification Process
-        </button>
-    </div>
-</div>
     <!-- Bid Modal -->
     <div id="bidModal" class="modal bid-modal">
         <div class="modal-content">
@@ -1632,81 +1634,83 @@
             </div>
         </div>
     </div>
-<!-- Verification Modal -->
-<div id="verificationModal" class="modal">
-    <div class="modal-content" style="max-width: 600px;">
-        <div class="modal-header">
-            <h2>Account Verification</h2>
-            <button class="close-modal" onclick="closeModal('verificationModal')">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div style="margin-bottom: 25px;">
-                <h3 style="margin-bottom: 10px;">Verification Steps:</h3>
-                <ol style="margin-left: 20px; color: #666; line-height: 1.8;">
-                    <li>Upload front side of your National ID</li>
-                    <li>Upload back side of your National ID</li>
-                    <li>Upload a clear selfie holding your ID (face visible)</li>
-                    <li>Submit for review (takes 24-48 hours)</li>
-                </ol>
+    
+    <!-- Verification Modal -->
+    <div id="verificationModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2>Account Verification</h2>
+                <button class="close-modal" onclick="closeModal('verificationModal')">&times;</button>
             </div>
-            
-            <div id="uploadError" class="error-message" style="display: none;"></div>
-            
-            <!-- ID Front Upload -->
-            <div class="form-group">
-                <label class="form-label">
-                    <i class="fas fa-id-card"></i> ID Front Side
-                    <span style="color: #999; font-size: 12px; margin-left: 10px;">(JPG, PNG, PDF - Max 5MB)</span>
-                </label>
-                <div class="upload-area" id="idFrontUpload" style="border: 2px dashed var(--medium-gray); border-radius: var(--radius); padding: 30px; text-align: center; cursor: pointer; transition: var(--transition); background-color: #f9f9f9;">
-                    <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: var(--orange); margin-bottom: 10px;"></i>
-                    <p style="margin-bottom: 5px;">Click to upload or drag and drop</p>
-                    <p id="idFrontFileName" style="font-size: 12px; color: var(--orange); display: none;"></p>
+            <div class="modal-body">
+                <div style="margin-bottom: 25px;">
+                    <h3 style="margin-bottom: 10px;">Verification Steps:</h3>
+                    <ol style="margin-left: 20px; color: #666; line-height: 1.8;">
+                        <li>Upload front side of your National ID</li>
+                        <li>Upload back side of your National ID</li>
+                        <li>Upload a clear selfie holding your ID (face visible)</li>
+                        <li>Submit for review (takes 24-48 hours)</li>
+                    </ol>
                 </div>
-                <input type="file" id="idFrontFile" accept="image/*,.pdf" style="display: none;">
-            </div>
-            
-            <!-- ID Back Upload -->
-            <div class="form-group">
-                <label class="form-label">
-                    <i class="fas fa-id-card"></i> ID Back Side
-                    <span style="color: #999; font-size: 12px; margin-left: 10px;">(JPG, PNG, PDF - Max 5MB)</span>
-                </label>
-                <div class="upload-area" id="idBackUpload" style="border: 2px dashed var(--medium-gray); border-radius: var(--radius); padding: 30px; text-align: center; cursor: pointer; transition: var(--transition); background-color: #f9f9f9;">
-                    <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: var(--orange); margin-bottom: 10px;"></i>
-                    <p style="margin-bottom: 5px;">Click to upload or drag and drop</p>
-                    <p id="idBackFileName" style="font-size: 12px; color: var(--orange); display: none;"></p>
+                
+                <div id="uploadError" class="error-message" style="display: none;"></div>
+                
+                <!-- ID Front Upload -->
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-id-card"></i> ID Front Side
+                        <span style="color: #999; font-size: 12px; margin-left: 10px;">(JPG, PNG, PDF - Max 5MB)</span>
+                    </label>
+                    <div class="upload-area" id="idFrontUpload" style="border: 2px dashed var(--medium-gray); border-radius: var(--radius); padding: 30px; text-align: center; cursor: pointer; transition: var(--transition); background-color: #f9f9f9;">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: var(--orange); margin-bottom: 10px;"></i>
+                        <p style="margin-bottom: 5px;">Click to upload or drag and drop</p>
+                        <p id="idFrontFileName" style="font-size: 12px; color: var(--orange); display: none;"></p>
+                    </div>
+                    <input type="file" id="idFrontFile" accept="image/*,.pdf" style="display: none;">
                 </div>
-                <input type="file" id="idBackFile" accept="image/*,.pdf" style="display: none;">
-            </div>
-            
-            <!-- Selfie Upload -->
-            <div class="form-group">
-                <label class="form-label">
-                    <i class="fas fa-camera"></i> Selfie with ID
-                    <span style="color: #999; font-size: 12px; margin-left: 10px;">(Face clearly visible, holding ID)</span>
-                </label>
-                <div class="upload-area" id="selfieUpload" style="border: 2px dashed var(--medium-gray); border-radius: var(--radius); padding: 30px; text-align: center; cursor: pointer; transition: var(--transition); background-color: #f9f9f9;">
-                    <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: var(--orange); margin-bottom: 10px;"></i>
-                    <p style="margin-bottom: 5px;">Click to upload or drag and drop</p>
-                    <p id="selfieFileName" style="font-size: 12px; color: var(--orange); display: none;"></p>
+                
+                <!-- ID Back Upload -->
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-id-card"></i> ID Back Side
+                        <span style="color: #999; font-size: 12px; margin-left: 10px;">(JPG, PNG, PDF - Max 5MB)</span>
+                    </label>
+                    <div class="upload-area" id="idBackUpload" style="border: 2px dashed var(--medium-gray); border-radius: var(--radius); padding: 30px; text-align: center; cursor: pointer; transition: var(--transition); background-color: #f9f9f9;">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: var(--orange); margin-bottom: 10px;"></i>
+                        <p style="margin-bottom: 5px;">Click to upload or drag and drop</p>
+                        <p id="idBackFileName" style="font-size: 12px; color: var(--orange); display: none;"></p>
+                    </div>
+                    <input type="file" id="idBackFile" accept="image/*,.pdf" style="display: none;">
                 </div>
-                <input type="file" id="selfieFile" accept="image/*" style="display: none;">
+                
+                <!-- Selfie Upload -->
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-camera"></i> Selfie with ID
+                        <span style="color: #999; font-size: 12px; margin-left: 10px;">(Face clearly visible, holding ID)</span>
+                    </label>
+                    <div class="upload-area" id="selfieUpload" style="border: 2px dashed var(--medium-gray); border-radius: var(--radius); padding: 30px; text-align: center; cursor: pointer; transition: var(--transition); background-color: #f9f9f9;">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 40px; color: var(--orange); margin-bottom: 10px;"></i>
+                        <p style="margin-bottom: 5px;">Click to upload or drag and drop</p>
+                        <p id="selfieFileName" style="font-size: 12px; color: var(--orange); display: none;"></p>
+                    </div>
+                    <input type="file" id="selfieFile" accept="image/*" style="display: none;">
+                </div>
+                
+                <div style="background-color: #e7f3ff; padding: 15px; border-radius: var(--radius); margin-top: 20px;">
+                    <i class="fas fa-info-circle" style="color: var(--light-blue); margin-right: 10px;"></i>
+                    <span style="font-size: 14px;">Your documents are secure and encrypted. They will only be used for verification purposes.</span>
+                </div>
             </div>
-            
-            <div style="background-color: #e7f3ff; padding: 15px; border-radius: var(--radius); margin-top: 20px;">
-                <i class="fas fa-info-circle" style="color: var(--light-blue); margin-right: 10px;"></i>
-                <span style="font-size: 14px;">Your documents are secure and encrypted. They will only be used for verification purposes.</span>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal('verificationModal')">Cancel</button>
+                <button id="submitVerificationBtn" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Submit for Verification
+                </button>
             </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-outline" onclick="closeModal('verificationModal')">Cancel</button>
-            <button id="submitVerificationBtn" class="btn btn-primary">
-                <i class="fas fa-paper-plane"></i> Submit for Verification
-            </button>
         </div>
     </div>
-</div>
+    
     <!-- Toast Notification -->
     <div id="toast" class="toast">
         <i id="toastIcon" class="fas fa-check-circle"></i>
@@ -1812,11 +1816,6 @@
                     }
                 });
             });
-                        });
-            
-            // Initialize verification
-            initVerification();
-        }
             
             // Buttons
             const refreshBtn = document.getElementById('refreshBtn');
@@ -1825,7 +1824,6 @@
             const supportBtn = document.getElementById('supportBtn');
             const saveProfileBtn = document.getElementById('saveProfileBtn');
             const changePhotoBtn = document.getElementById('changePhotoBtn');
-            const logoutBtn = document.getElementById('logoutBtn');
             const requestWithdrawalBtn = document.getElementById('requestWithdrawalBtn');
             const submitBidBtn = document.getElementById('submitBidBtn');
             const completeJobBtn = document.getElementById('completeJobBtn');
@@ -1839,7 +1837,6 @@
             if (supportBtn) supportBtn.addEventListener('click', showRunnerSupport);
             if (saveProfileBtn) saveProfileBtn.addEventListener('click', saveProfile);
             if (changePhotoBtn) changePhotoBtn.addEventListener('click', changeProfilePhoto);
-            if (logoutBtn) logoutBtn.addEventListener('click', logout);
             if (requestWithdrawalBtn) requestWithdrawalBtn.addEventListener('click', () => showModal('withdrawalModal'));
             if (submitBidBtn) submitBidBtn.addEventListener('click', submitBid);
             if (completeJobBtn) completeJobBtn.addEventListener('click', () => {
@@ -1876,6 +1873,9 @@
                     e.target.classList.remove('active');
                 }
             });
+            
+            // Initialize verification
+            initVerification();
         }
 
         // Authentication Functions
@@ -2023,11 +2023,13 @@
                     };
                     
                     updateRunnerUI();
+                    
                     // Load verification status
-loadVerificationStatus();
+                    loadVerificationStatus();
 
-// Load dashboard data
-loadDashboardData();
+                    // Load dashboard data
+                    loadDashboardData();
+                    
                     showToast('Welcome to ERRANDS Runner! You have KSH 5000 in your wallet.', 'success');
                 }
             } catch (error) {
@@ -2334,41 +2336,42 @@ loadDashboardData();
         }
 
         function filterTasks(filter) {
-    const cards = document.querySelectorAll('.task-card');
-    cards.forEach(card => {
-        let show = false;
-        
-        // Safely get dataset values with defaults
-        const taskType = card.dataset.type || '';
-        const taskBudget = parseFloat(card.dataset.budget) || 0;
-        
-        switch(filter) {
-            case 'all':
-                show = true;
-                break;
-            case 'nearby':
-                // Simple check - in real app, use location data
-                show = true;
-                break;
-            case 'delivery':
-                show = taskType.includes('delivery');
-                break;
-            case 'shopping':
-                show = taskType.includes('shopping');
-                break;
-            case 'repair':
-                show = taskType.includes('repair') || taskType.includes('handy');
-                break;
-            case 'high-budget':
-                show = taskBudget > 5000;
-                break;
-            default:
-                show = true;
+            const cards = document.querySelectorAll('.task-card');
+            cards.forEach(card => {
+                let show = false;
+                
+                // Safely get dataset values with defaults
+                const taskType = card.dataset.type || '';
+                const taskBudget = parseFloat(card.dataset.budget) || 0;
+                
+                switch(filter) {
+                    case 'all':
+                        show = true;
+                        break;
+                    case 'nearby':
+                        // Simple check - in real app, use location data
+                        show = true;
+                        break;
+                    case 'delivery':
+                        show = taskType.includes('delivery');
+                        break;
+                    case 'shopping':
+                        show = taskType.includes('shopping');
+                        break;
+                    case 'repair':
+                        show = taskType.includes('repair') || taskType.includes('handy');
+                        break;
+                    case 'high-budget':
+                        show = taskBudget > 5000;
+                        break;
+                    default:
+                        show = true;
+                }
+                
+                card.style.display = show ? 'block' : 'none';
+            });
         }
         
-        card.style.display = show ? 'block' : 'none';
-    });
-}
         // Bid Functions
         async function openBidModal(taskId) {
             selectedTaskId = taskId;
@@ -2563,15 +2566,15 @@ loadDashboardData();
         }
 
         function filterBids(filter) {
-    const cards = document.querySelectorAll('.task-card');
-    cards.forEach(card => {
-        if (filter === 'all' || (card.dataset.status && card.dataset.status === filter)) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
+            const cards = document.querySelectorAll('.task-card');
+            cards.forEach(card => {
+                if (filter === 'all' || (card.dataset.status && card.dataset.status === filter)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
-    });
-}
 
         async function withdrawBid(bidId) {
             if (!confirm('Are you sure you want to withdraw this bid?')) return;
@@ -3075,334 +3078,336 @@ loadDashboardData();
                 viewJobDetails(taskId);
             }, 500);
         }
-// Verification Functions
-let verificationFiles = {
-    idFront: null,
-    idBack: null,
-    selfie: null
-};
-
-// Initialize verification listeners
-function initVerification() {
-    const verifyBtn = document.getElementById('verifyAccountBtn');
-    const idFrontUpload = document.getElementById('idFrontUpload');
-    const idBackUpload = document.getElementById('idBackUpload');
-    const selfieUpload = document.getElementById('selfieUpload');
-    const idFrontFile = document.getElementById('idFrontFile');
-    const idBackFile = document.getElementById('idBackFile');
-    const selfieFile = document.getElementById('selfieFile');
-    const submitVerificationBtn = document.getElementById('submitVerificationBtn');
-    
-    if (verifyBtn) {
-        verifyBtn.addEventListener('click', () => {
-            showModal('verificationModal');
-        });
-    }
-    
-    // Handle ID Front upload click
-    if (idFrontUpload) {
-        idFrontUpload.addEventListener('click', () => {
-            idFrontFile.click();
-        });
         
-        idFrontUpload.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            idFrontUpload.style.borderColor = 'var(--orange)';
-            idFrontUpload.style.backgroundColor = '#fff3e0';
-        });
-        
-        idFrontUpload.addEventListener('dragleave', () => {
-            idFrontUpload.style.borderColor = 'var(--medium-gray)';
-            idFrontUpload.style.backgroundColor = '#f9f9f9';
-        });
-        
-        idFrontUpload.addEventListener('drop', (e) => {
-            e.preventDefault();
-            idFrontUpload.style.borderColor = 'var(--medium-gray)';
-            idFrontUpload.style.backgroundColor = '#f9f9f9';
-            
-            if (e.dataTransfer.files.length > 0) {
-                handleFileSelect(e.dataTransfer.files[0], 'idFront');
-            }
-        });
-    }
-    
-    // Handle ID Back upload click
-    if (idBackUpload) {
-        idBackUpload.addEventListener('click', () => {
-            idBackFile.click();
-        });
-        
-        idBackUpload.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            idBackUpload.style.borderColor = 'var(--orange)';
-            idBackUpload.style.backgroundColor = '#fff3e0';
-        });
-        
-        idBackUpload.addEventListener('dragleave', () => {
-            idBackUpload.style.borderColor = 'var(--medium-gray)';
-            idBackUpload.style.backgroundColor = '#f9f9f9';
-        });
-        
-        idBackUpload.addEventListener('drop', (e) => {
-            e.preventDefault();
-            idBackUpload.style.borderColor = 'var(--medium-gray)';
-            idBackUpload.style.backgroundColor = '#f9f9f9';
-            
-            if (e.dataTransfer.files.length > 0) {
-                handleFileSelect(e.dataTransfer.files[0], 'idBack');
-            }
-        });
-    }
-    
-    // Handle Selfie upload click
-    if (selfieUpload) {
-        selfieUpload.addEventListener('click', () => {
-            selfieFile.click();
-        });
-        
-        selfieUpload.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            selfieUpload.style.borderColor = 'var(--orange)';
-            selfieUpload.style.backgroundColor = '#fff3e0';
-        });
-        
-        selfieUpload.addEventListener('dragleave', () => {
-            selfieUpload.style.borderColor = 'var(--medium-gray)';
-            selfieUpload.style.backgroundColor = '#f9f9f9';
-        });
-        
-        selfieUpload.addEventListener('drop', (e) => {
-            e.preventDefault();
-            selfieUpload.style.borderColor = 'var(--medium-gray)';
-            selfieUpload.style.backgroundColor = '#f9f9f9';
-            
-            if (e.dataTransfer.files.length > 0) {
-                handleFileSelect(e.dataTransfer.files[0], 'selfie');
-            }
-        });
-    }
-    
-    // Handle file input changes
-    if (idFrontFile) {
-        idFrontFile.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleFileSelect(e.target.files[0], 'idFront');
-            }
-        });
-    }
-    
-    if (idBackFile) {
-        idBackFile.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleFileSelect(e.target.files[0], 'idBack');
-            }
-        });
-    }
-    
-    if (selfieFile) {
-        selfieFile.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleFileSelect(e.target.files[0], 'selfie');
-            }
-        });
-    }
-    
-    if (submitVerificationBtn) {
-        submitVerificationBtn.addEventListener('click', submitVerification);
-    }
-}
-
-function handleFileSelect(file, type) {
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-        showToast('File size must be less than 5MB', 'error');
-        return;
-    }
-    
-    // Validate file type
-    const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
-    if (type !== 'selfie' && !validTypes.includes(file.type)) {
-        showToast('Please upload JPG, PNG, or PDF files only', 'error');
-        return;
-    }
-    
-    if (type === 'selfie' && !file.type.startsWith('image/')) {
-        showToast('Please upload an image file for selfie', 'error');
-        return;
-    }
-    
-    // Store file
-    verificationFiles[type] = file;
-    
-    // Update UI
-    const fileNameElement = document.getElementById(`${type}FileName`);
-    if (fileNameElement) {
-        fileNameElement.textContent = `Selected: ${file.name}`;
-        fileNameElement.style.display = 'block';
-    }
-    
-    // Update upload area style
-    const uploadArea = document.getElementById(`${type}Upload`);
-    if (uploadArea) {
-        uploadArea.style.borderColor = 'var(--lime-green)';
-        uploadArea.style.backgroundColor = '#f0fff0';
-    }
-    
-    showToast(`${type === 'idFront' ? 'ID Front' : type === 'idBack' ? 'ID Back' : 'Selfie'} uploaded successfully`, 'success');
-}
-
-async function submitVerification() {
-    // Check if all files are uploaded
-    if (!verificationFiles.idFront || !verificationFiles.idBack || !verificationFiles.selfie) {
-        showToast('Please upload all required documents', 'error');
-        return;
-    }
-    
-    showLoading();
-    
-    try {
-        // Create a verification record
-        const verificationData = {
-            runnerId: currentUser.uid,
-            runnerName: runnerData.name,
-            runnerEmail: currentUser.email,
-            status: 'pending',
-            submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
-            documents: {}
-        };
-        
-        // Upload files to Firebase Storage
-        const storageRef = storage.ref();
-        
-        // Upload ID Front
-        const idFrontRef = storageRef.child(`verifications/${currentUser.uid}/id_front_${Date.now()}`);
-        await idFrontRef.put(verificationFiles.idFront);
-        verificationData.documents.idFront = await idFrontRef.getDownloadURL();
-        
-        // Upload ID Back
-        const idBackRef = storageRef.child(`verifications/${currentUser.uid}/id_back_${Date.now()}`);
-        await idBackRef.put(verificationFiles.idBack);
-        verificationData.documents.idBack = await idBackRef.getDownloadURL();
-        
-        // Upload Selfie
-        const selfieRef = storageRef.child(`verifications/${currentUser.uid}/selfie_${Date.now()}`);
-        await selfieRef.put(verificationFiles.selfie);
-        verificationData.documents.selfie = await selfieRef.getDownloadURL();
-        
-        // Save verification request to Firestore
-        await db.collection('verifications').add(verificationData);
-        
-        // Update runner profile with verification status
-        await db.collection('runners').doc(currentUser.uid).update({
-            verificationStatus: 'pending',
-            verificationSubmittedAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        
-        // Update local data
-        runnerData.verificationStatus = 'pending';
-        
-        // Update UI
-        updateVerificationStatus();
-        
-        showToast('Verification documents submitted successfully! We will review within 24-48 hours.', 'success');
-        closeModal('verificationModal');
-        
-        // Clear files
-        verificationFiles = {
+        // Verification Functions
+        let verificationFiles = {
             idFront: null,
             idBack: null,
             selfie: null
         };
-        
-        // Reset UI
-        document.querySelectorAll('[id$="FileName"]').forEach(el => {
-            el.style.display = 'none';
-            el.textContent = '';
-        });
-        
-        document.querySelectorAll('[id$="Upload"]').forEach(el => {
-            el.style.borderColor = 'var(--medium-gray)';
-            el.style.backgroundColor = '#f9f9f9';
-        });
-        
-    } catch (error) {
-        console.error('Verification submission error:', error);
-        showToast('Error submitting verification: ' + error.message, 'error');
-    } finally {
-        hideLoading();
-    }
-}
 
-function updateVerificationStatus() {
-    const verificationStatus = document.getElementById('verificationStatus');
-    if (!verificationStatus) return;
-    
-    const status = runnerData.verificationStatus || 'not_submitted';
-    const icon = verificationStatus.querySelector('i');
-    const title = verificationStatus.querySelector('h3');
-    const description = verificationStatus.querySelector('p');
-    
-    switch(status) {
-        case 'pending':
-            verificationStatus.style.backgroundColor = '#fff3cd';
-            verificationStatus.style.borderLeftColor = '#ffc107';
-            icon.className = 'fas fa-clock';
-            icon.style.color = '#856404';
-            title.textContent = 'Verification Pending';
-            title.style.color = '#856404';
-            description.textContent = 'Your documents are being reviewed. This usually takes 24-48 hours.';
-            description.style.color = '#856404';
-            break;
+        // Initialize verification listeners
+        function initVerification() {
+            const verifyBtn = document.getElementById('verifyAccountBtn');
+            const idFrontUpload = document.getElementById('idFrontUpload');
+            const idBackUpload = document.getElementById('idBackUpload');
+            const selfieUpload = document.getElementById('selfieUpload');
+            const idFrontFile = document.getElementById('idFrontFile');
+            const idBackFile = document.getElementById('idBackFile');
+            const selfieFile = document.getElementById('selfieFile');
+            const submitVerificationBtn = document.getElementById('submitVerificationBtn');
             
-        case 'verified':
-            verificationStatus.style.backgroundColor = '#d4edda';
-            verificationStatus.style.borderLeftColor = '#28a745';
-            icon.className = 'fas fa-check-circle';
-            icon.style.color = '#155724';
-            title.textContent = 'Account Verified';
-            title.style.color = '#155724';
-            description.textContent = 'Your account is verified. You now have access to higher earnings and more tasks.';
-            description.style.color = '#155724';
-            break;
+            if (verifyBtn) {
+                verifyBtn.addEventListener('click', () => {
+                    showModal('verificationModal');
+                });
+            }
             
-        case 'rejected':
-            verificationStatus.style.backgroundColor = '#f8d7da';
-            verificationStatus.style.borderLeftColor = '#dc3545';
-            icon.className = 'fas fa-times-circle';
-            icon.style.color = '#721c24';
-            title.textContent = 'Verification Rejected';
-            title.style.color = '#721c24';
-            description.textContent = 'Your documents were rejected. Please submit again with clear images.';
-            description.style.color = '#721c24';
-            break;
+            // Handle ID Front upload click
+            if (idFrontUpload) {
+                idFrontUpload.addEventListener('click', () => {
+                    idFrontFile.click();
+                });
+                
+                idFrontUpload.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    idFrontUpload.style.borderColor = 'var(--orange)';
+                    idFrontUpload.style.backgroundColor = '#fff3e0';
+                });
+                
+                idFrontUpload.addEventListener('dragleave', () => {
+                    idFrontUpload.style.borderColor = 'var(--medium-gray)';
+                    idFrontUpload.style.backgroundColor = '#f9f9f9';
+                });
+                
+                idFrontUpload.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    idFrontUpload.style.borderColor = 'var(--medium-gray)';
+                    idFrontUpload.style.backgroundColor = '#f9f9f9';
+                    
+                    if (e.dataTransfer.files.length > 0) {
+                        handleFileSelect(e.dataTransfer.files[0], 'idFront');
+                    }
+                });
+            }
             
-        default:
-            verificationStatus.style.backgroundColor = '#fff3cd';
-            verificationStatus.style.borderLeftColor = '#ffc107';
-            icon.className = 'fas fa-exclamation-triangle';
-            icon.style.color = '#856404';
-            title.textContent = 'Verification Required';
-            title.style.color = '#856404';
-            description.textContent = 'Verify your account to unlock higher earnings and more tasks';
-            description.style.color = '#856404';
-    }
-}
-
-// Load verification status when loading runner data
-async function loadVerificationStatus() {
-    if (!currentUser) return;
-    
-    try {
-        const runnerDoc = await db.collection('runners').doc(currentUser.uid).get();
-        if (runnerDoc.exists) {
-            runnerData.verificationStatus = runnerDoc.data().verificationStatus || 'not_submitted';
-            updateVerificationStatus();
+            // Handle ID Back upload click
+            if (idBackUpload) {
+                idBackUpload.addEventListener('click', () => {
+                    idBackFile.click();
+                });
+                
+                idBackUpload.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    idBackUpload.style.borderColor = 'var(--orange)';
+                    idBackUpload.style.backgroundColor = '#fff3e0';
+                });
+                
+                idBackUpload.addEventListener('dragleave', () => {
+                    idBackUpload.style.borderColor = 'var(--medium-gray)';
+                    idBackUpload.style.backgroundColor = '#f9f9f9';
+                });
+                
+                idBackUpload.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    idBackUpload.style.borderColor = 'var(--medium-gray)';
+                    idBackUpload.style.backgroundColor = '#f9f9f9';
+                    
+                    if (e.dataTransfer.files.length > 0) {
+                        handleFileSelect(e.dataTransfer.files[0], 'idBack');
+                    }
+                });
+            }
+            
+            // Handle Selfie upload click
+            if (selfieUpload) {
+                selfieUpload.addEventListener('click', () => {
+                    selfieFile.click();
+                });
+                
+                selfieUpload.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    selfieUpload.style.borderColor = 'var(--orange)';
+                    selfieUpload.style.backgroundColor = '#fff3e0';
+                });
+                
+                selfieUpload.addEventListener('dragleave', () => {
+                    selfieUpload.style.borderColor = 'var(--medium-gray)';
+                    selfieUpload.style.backgroundColor = '#f9f9f9';
+                });
+                
+                selfieUpload.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    selfieUpload.style.borderColor = 'var(--medium-gray)';
+                    selfieUpload.style.backgroundColor = '#f9f9f9';
+                    
+                    if (e.dataTransfer.files.length > 0) {
+                        handleFileSelect(e.dataTransfer.files[0], 'selfie');
+                    }
+                });
+            }
+            
+            // Handle file input changes
+            if (idFrontFile) {
+                idFrontFile.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        handleFileSelect(e.target.files[0], 'idFront');
+                    }
+                });
+            }
+            
+            if (idBackFile) {
+                idBackFile.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        handleFileSelect(e.target.files[0], 'idBack');
+                    }
+                });
+            }
+            
+            if (selfieFile) {
+                selfieFile.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        handleFileSelect(e.target.files[0], 'selfie');
+                    }
+                });
+            }
+            
+            if (submitVerificationBtn) {
+                submitVerificationBtn.addEventListener('click', submitVerification);
+            }
         }
-    } catch (error) {
-        console.error('Error loading verification status:', error);
-    }
-}
+
+        function handleFileSelect(file, type) {
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('File size must be less than 5MB', 'error');
+                return;
+            }
+            
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
+            if (type !== 'selfie' && !validTypes.includes(file.type)) {
+                showToast('Please upload JPG, PNG, or PDF files only', 'error');
+                return;
+            }
+            
+            if (type === 'selfie' && !file.type.startsWith('image/')) {
+                showToast('Please upload an image file for selfie', 'error');
+                return;
+            }
+            
+            // Store file
+            verificationFiles[type] = file;
+            
+            // Update UI
+            const fileNameElement = document.getElementById(`${type}FileName`);
+            if (fileNameElement) {
+                fileNameElement.textContent = `Selected: ${file.name}`;
+                fileNameElement.style.display = 'block';
+            }
+            
+            // Update upload area style
+            const uploadArea = document.getElementById(`${type}Upload`);
+            if (uploadArea) {
+                uploadArea.style.borderColor = 'var(--lime-green)';
+                uploadArea.style.backgroundColor = '#f0fff0';
+            }
+            
+            showToast(`${type === 'idFront' ? 'ID Front' : type === 'idBack' ? 'ID Back' : 'Selfie'} uploaded successfully`, 'success');
+        }
+
+        async function submitVerification() {
+            // Check if all files are uploaded
+            if (!verificationFiles.idFront || !verificationFiles.idBack || !verificationFiles.selfie) {
+                showToast('Please upload all required documents', 'error');
+                return;
+            }
+            
+            showLoading();
+            
+            try {
+                // Create a verification record
+                const verificationData = {
+                    runnerId: currentUser.uid,
+                    runnerName: runnerData.name,
+                    runnerEmail: currentUser.email,
+                    status: 'pending',
+                    submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    documents: {}
+                };
+                
+                // Upload files to Firebase Storage
+                const storageRef = storage.ref();
+                
+                // Upload ID Front
+                const idFrontRef = storageRef.child(`verifications/${currentUser.uid}/id_front_${Date.now()}`);
+                await idFrontRef.put(verificationFiles.idFront);
+                verificationData.documents.idFront = await idFrontRef.getDownloadURL();
+                
+                // Upload ID Back
+                const idBackRef = storageRef.child(`verifications/${currentUser.uid}/id_back_${Date.now()}`);
+                await idBackRef.put(verificationFiles.idBack);
+                verificationData.documents.idBack = await idBackRef.getDownloadURL();
+                
+                // Upload Selfie
+                const selfieRef = storageRef.child(`verifications/${currentUser.uid}/selfie_${Date.now()}`);
+                await selfieRef.put(verificationFiles.selfie);
+                verificationData.documents.selfie = await selfieRef.getDownloadURL();
+                
+                // Save verification request to Firestore
+                await db.collection('verifications').add(verificationData);
+                
+                // Update runner profile with verification status
+                await db.collection('runners').doc(currentUser.uid).update({
+                    verificationStatus: 'pending',
+                    verificationSubmittedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Update local data
+                runnerData.verificationStatus = 'pending';
+                
+                // Update UI
+                updateVerificationStatus();
+                
+                showToast('Verification documents submitted successfully! We will review within 24-48 hours.', 'success');
+                closeModal('verificationModal');
+                
+                // Clear files
+                verificationFiles = {
+                    idFront: null,
+                    idBack: null,
+                    selfie: null
+                };
+                
+                // Reset UI
+                document.querySelectorAll('[id$="FileName"]').forEach(el => {
+                    el.style.display = 'none';
+                    el.textContent = '';
+                });
+                
+                document.querySelectorAll('[id$="Upload"]').forEach(el => {
+                    el.style.borderColor = 'var(--medium-gray)';
+                    el.style.backgroundColor = '#f9f9f9';
+                });
+                
+            } catch (error) {
+                console.error('Verification submission error:', error);
+                showToast('Error submitting verification: ' + error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function updateVerificationStatus() {
+            const verificationStatus = document.getElementById('verificationStatus');
+            if (!verificationStatus) return;
+            
+            const status = runnerData.verificationStatus || 'not_submitted';
+            const icon = verificationStatus.querySelector('i');
+            const title = verificationStatus.querySelector('h3');
+            const description = verificationStatus.querySelector('p');
+            
+            switch(status) {
+                case 'pending':
+                    verificationStatus.style.backgroundColor = '#fff3cd';
+                    verificationStatus.style.borderLeftColor = '#ffc107';
+                    icon.className = 'fas fa-clock';
+                    icon.style.color = '#856404';
+                    title.textContent = 'Verification Pending';
+                    title.style.color = '#856404';
+                    description.textContent = 'Your documents are being reviewed. This usually takes 24-48 hours.';
+                    description.style.color = '#856404';
+                    break;
+                    
+                case 'verified':
+                    verificationStatus.style.backgroundColor = '#d4edda';
+                    verificationStatus.style.borderLeftColor = '#28a745';
+                    icon.className = 'fas fa-check-circle';
+                    icon.style.color = '#155724';
+                    title.textContent = 'Account Verified';
+                    title.style.color = '#155724';
+                    description.textContent = 'Your account is verified. You now have access to higher earnings and more tasks.';
+                    description.style.color = '#155724';
+                    break;
+                    
+                case 'rejected':
+                    verificationStatus.style.backgroundColor = '#f8d7da';
+                    verificationStatus.style.borderLeftColor = '#dc3545';
+                    icon.className = 'fas fa-times-circle';
+                    icon.style.color = '#721c24';
+                    title.textContent = 'Verification Rejected';
+                    title.style.color = '#721c24';
+                    description.textContent = 'Your documents were rejected. Please submit again with clear images.';
+                    description.style.color = '#721c24';
+                    break;
+                    
+                default:
+                    verificationStatus.style.backgroundColor = '#fff3cd';
+                    verificationStatus.style.borderLeftColor = '#ffc107';
+                    icon.className = 'fas fa-exclamation-triangle';
+                    icon.style.color = '#856404';
+                    title.textContent = 'Verification Required';
+                    title.style.color = '#856404';
+                    description.textContent = 'Verify your account to unlock higher earnings and more tasks';
+                    description.style.color = '#856404';
+            }
+        }
+
+        // Load verification status when loading runner data
+        async function loadVerificationStatus() {
+            if (!currentUser) return;
+            
+            try {
+                const runnerDoc = await db.collection('runners').doc(currentUser.uid).get();
+                if (runnerDoc.exists) {
+                    runnerData.verificationStatus = runnerDoc.data().verificationStatus || 'not_submitted';
+                    updateVerificationStatus();
+                }
+            } catch (error) {
+                console.error('Error loading verification status:', error);
+            }
+        }
+        
         // Initialize with demo data
         window.addEventListener('load', function() {
             // Show login page
