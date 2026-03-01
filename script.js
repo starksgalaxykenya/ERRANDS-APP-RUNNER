@@ -723,8 +723,8 @@ async function submitBid() {
     const bidMessage = document.getElementById('bidMessage').value;
     const bidTerms = document.getElementById('bidTerms').checked;
     
-    if (!bidAmount || bidAmount < 100) {
-        showToast('Minimum bid amount is KSH 100', 'error');
+    if (!bidAmount || bidAmount < 1) {
+        showToast('Minimum bid amount is KSH 1', 'error');
         return;
     }
     
